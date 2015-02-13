@@ -30,7 +30,6 @@ ex:<div class="div1"></div>
 ####基本图形
 
 =
-
 * 矩形<rect>
 * 圆<circle>
 * 椭圆<ellipse>
@@ -39,6 +38,8 @@ ex:<div class="div1"></div>
 * 多边形<polygon>
 
 ####属性
+
+=
 * fill 填充
 * stroke 边框
 * stroke-width 边框宽度

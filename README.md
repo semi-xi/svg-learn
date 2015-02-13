@@ -11,10 +11,7 @@ svg learning
 * 直接在浏览器打开
 	ex:双击直接打开
 * 在HTML中使用img标签引用
-<pre>
-	ex :
-	![](https://github.com/semi-xi/svg-learn/blob/svg-learn/img/simple.svg) 
-</pre>
+
 * 直接在HTML中使用svg标签
 	<pre>
 	ex:<svg>xxxxxxxxx</svg>

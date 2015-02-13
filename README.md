@@ -13,7 +13,7 @@ svg learning
 * 在HTML中使用img标签引用
 <pre>
 	ex :
-	![](https://github.com/semi-xi/svg-learn/raw/svg-learn/img/simple.svg) 
+	![](https://github.com/semi-xi/svg-learn/blob/svg-learn/img/simple.svg) 
 </pre>
 * 直接在HTML中使用svg标签
 	<pre>

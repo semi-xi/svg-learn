@@ -6,6 +6,7 @@ svg learning
 ###1.1 svg特性
 
 * 矢量
+* 高大上
 
 ###1.2svg的使用方式
 
@@ -22,5 +23,23 @@ ex:<div class="div1"></div>
 		background-image: url(../img/simple.svg);
 		background-size: 100%;
 	}
-</style> 
+</style>
 </pre>
+
+###1.3 基本的图形和属性
+####基本图形
+
+=
+
+* 矩形<rect>
+* 圆<circle>
+* 椭圆<ellipse>
+* 直线<line>
+* 多段直线结合<polyline>
+* 多边形<polygon>
+
+####属性
+* fill 填充
+* stroke 边框
+* stroke-width 边框宽度
+* transform 变形

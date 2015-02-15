@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>api</title>
+    <script type="text/javascript">
+    
+    </script>
+</head>
+<body>
+    <div id="canvas"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var NS='http://www.w3.org/2000/svg';
+    var oCanvas=document.getElementById('canvas');
+    var defaultPic={
+        'rect':{
+            x:'10',
+            y:'10',
+            width:'100',
+            height:'100'
+        }
+    }
+    var defaultAttr={
+        'stroke':'red',
+        'strokeWidth':'1px',
+        fill:'#fff'
+    }
+//    创建svn
+    createSvg();
+    createPic();
+    function createSvg(){
+         var oSVG=document.createElementNS(NS,'svg');
+            oSVG.setAttribute('width','100%');
+            oSVG.setAttribute('height','100%');
+            oCanvas.appendChild(oSVG);
+    }
+    
+    function createPic(){
+        for(var i in defaultPic){
+            var oPic=document.createElementNS(NS,i);
+            for(var j in defaultPic[i]){
+                oPic.setAttribute(j,defaultPic[i][j]);
+            }
+            for(var n in defaultAttr){
+                oPic.setAttribute(n,defaultAttr[n]);
+            }
+            document.getElementsByTagName('svg')[0].appendChild(oPic)
+        }
+    }
+</script>

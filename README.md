@@ -44,3 +44,11 @@ ex:<div class="div1"></div>
 * stroke 边框
 * stroke-width 边框宽度
 * transform 变形
+
+
+### 基本的api
+SVG_NS:http://www.w3.org/2000/svg 创建svg所有标签必备的一个东西 !important 
+document.createElementNS(SVG_NS,ele) ele可以是svg line rect ellipse circle ploygon polyline等
+ele.appendChild(svgEle) 增加节点
+ele.setAttribute(name,value) 增加属性
+ele.getAttribute(name )获得属性

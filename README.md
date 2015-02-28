@@ -139,7 +139,7 @@ linearGradient和stop 标签
 关键点位置(渐变过渡点)及颜色 offset  stop-color
 gradientUnits 使用不同的坐标系来表示渐变的坐标点
 默认是：objectBoundingBox 代表的是使用自身坐标系来表示渐变开始以及结束位置；如果用的是userSpaceOnUse 那么用的就是图形的世界坐标系
-
+<pre>
 <svg xmlns="http://www.w3.org/2000/svg">
     <defs>
         <linearGradient id="grad1" gradientUnits="userSpaceOnUse" x1="100" y1="100" x2="150" y2="150">
@@ -156,7 +156,7 @@ gradientUnits 使用不同的坐标系来表示渐变的坐标点
     <rect x="100" y="100" fill="url(#grad1)" width="200" height="150"/>
     <rect x="300" y="100" fill="url(#grad2)" width="200" height="150"/>
 </svg>
-
+</pre>
 
 说明：defs标签代表一个引用的集合,使用引用的方法是在图形的fill上使用url+(#+id) 代表在图形上使用某种渐变。渐变的必须都写在defs里面
 

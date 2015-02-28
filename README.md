@@ -139,24 +139,7 @@ linearGradient和stop 标签
 关键点位置(渐变过渡点)及颜色 offset  stop-color
 gradientUnits 使用不同的坐标系来表示渐变的坐标点
 默认是：objectBoundingBox 代表的是使用自身坐标系来表示渐变开始以及结束位置；如果用的是userSpaceOnUse 那么用的就是图形的世界坐标系
-<pre>
-<svg xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="grad1" gradientUnits="userSpaceOnUse" x1="100" y1="100" x2="150" y2="150">
-            <stop offset="0" stop-color="#1497FC"/>
-            <stop offset="0.5" stop-color="#A469BE"/>
-            <stop offset="1" stop-color="#FF8C00"/>
-        </linearGradient>
-        <linearGradient id="grad2" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#1497FC"/>
-            <stop offset="0.5" stop-color="#A469BE"/>
-            <stop offset="1" stop-color="#FF8C00"/>
-        </linearGradient>
-    </defs>
-    <rect x="100" y="100" fill="url(#grad1)" width="200" height="150"/>
-    <rect x="300" y="100" fill="url(#grad2)" width="200" height="150"/>
-</svg>
-</pre>
+
 
 说明：defs标签代表一个引用的集合,使用引用的方法是在图形的fill上使用url+(#+id) 代表在图形上使用某种渐变。渐变的必须都写在defs里面
 
@@ -164,18 +147,7 @@ gradientUnits 使用不同的坐标系来表示渐变的坐标点
 
 同现行渐变 不过多了个焦点位置
 
-<pre>
-	<svg xmlns="http://www.w3.org/2000/svg">
-	    <defs>
-	        <radialGradient id="grad2" cx="0.5" cy="0.5" r="0.5" fx="0.8" fy="0.2">
-	            <stop offset="0" stop-color="rgb(20,151,252)" />
-	            <stop offset="0.5" stop-color="rgb(164, 105, 190)" />
-	            <stop offset="1" stop-color="rgb(255, 140, 0)" />
-	        </radialGradient>
-	    </defs>
-	    <rect x="100" y="100" width="200" height="150" fill="url(#grad2)"></rect>
-	</svg>
-</pre>
+
 
 使用说明：
 cx，cy代表开始的位置 r代表半径(r的最外面是结束区域) 默认采用自身 坐标系 也可以使用gradientUnits 改变使用不用的坐标系 如 userSpaceOnUse
@@ -192,10 +164,7 @@ patternUnits代表的是本身使用的一个坐标系统，pattrenContentUnits�
 
 ###  概述
 path由两部分组成 命令+参数 ，参数之间可以用空格或逗号隔开，有一种情况是例外的，就是负数，负数可以直接连在一起
-ex:
-<pre>
-	<path d="M0,0L10,20C30-10,40,20,100,100" stroke="red">
-</pre>
+
 命令表 ：
 * M/m (x,y)+  移动当前位置
 * L/l (x,y)+  从当前位置绘制线段到指定位置

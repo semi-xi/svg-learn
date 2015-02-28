@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linearGradient</title>
+    <style type="text/css">
+        svg{
+            width: 600px;
+            height: 600px;
+            border:1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg">
+	    <defs>
+	        <radialGradient id="grad1" cx="0.5" cy="0.5" r="0.5" fx="0.8" fy="0.2">
+                <stop offset="0" stop-color="rgb(20,151,252)" />
+                <stop offset="0.5" stop-color="rgb(164, 105, 190)" />
+                <stop offset="1" stop-color="rgb(255, 140, 0)" />
+            </radialGradient>
+            <radialGradient id="grad2" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="rgb(20,151,252)" />
+                <stop offset="0.5" stop-color="rgb(164, 105, 190)" />
+                <stop offset="1" stop-color="rgb(255, 140, 0)" />
+            </radialGradient>
+	    </defs>
+	    <rect x="100" y="100" fill="url(#grad1)" width="200" height="150"/>
+	    <rect x="350" y="100" fill="url(#grad2)" width="200" height="150"/>
+	</svg>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Q</title>
+	<style type="text/css">
+        body,html{height:100%;}
+		#svg-wrap{
+/*
+			position: absolute;
+			left:0px;
+			top:0px;
+			right:0px;
+			bottom:80px;
+*/
+            position: relative;
+		}
+		svg{
+			display:block;
+			width:100%;
+			height:100%;
+		}
+        .dot{
+            position: absolute;
+            left:0px; top:0px;
+            width: 10px;
+            height: 10px;
+            background-color: blue;
+            border-radius: 50%;
+        }
+	</style>
+</head>
+<body>
+C 其他的类似<br>
+    startX:<input type="number" value="100" id="startx" data-value="startx">
+    start Y<input type="number" value="100" id="starty" data-value="starty">
+    controlX:<input type="number" value="100" id="controlx" data-value="controlx">
+    control Y<input type="number" value="150" id="controly" data-value="controly">
+    endX:<input type="number" value="250" id="endx" data-value="endx">
+    enxY:<input type="number" value="60" id="exny"  data-value="exny">
+	<div id="svg-wrap">
+        <svg id="svg" xmlns="http://www.w3.org/2000/svg">
+            <path id="path" fill="none" stroke="red" stroke-width="2" d="M 100 100 Q 100 150 250 60"></path>
+        </svg>
+           <i class="dot" data-index=0></i>
+    <i class="dot" data-index=1></i>
+    <i class="dot"  data-index=2></i>
+    </div>
+    <script>
+        var startx=document.getElementById('startx');
+        var starty=document.getElementById('starty');
+        var controlx=document.getElementById('controlx');
+        var controly=document.getElementById('controly');
+        var endx=document.getElementById('endx');
+        var endy=document.getElementById('exny');
+        
+        var dot1=document.getElementsByTagName('i')[0];
+        var do2=document.getElementsByTagName('i')[1];
+        var do3=document.getElementsByTagName('i')[2];
+        
+        var path=document.getElementById('svg').children[0];
+        var beizer=path.getAttribute('d');
+        console.log(path)
+        setDot();
+        function setDot(){
+             dot1.style.left=startx.value - (dot1.offsetWidth / 2) + 'px';
+             dot1.style.top=starty.value- (dot1.offsetHeight / 2) + 'px';
+             do2.style.left=controlx.value - (dot1.offsetWidth / 2) + 'px';
+             do2.style.top=controly.value - (dot1.offsetHeight / 2) + 'px';
+             do3.style.left=endx.value - (dot1.offsetWidth / 2) + 'px';
+             do3.style.top=endy.value - (dot1.offsetHeight / 2) + 'px';
+        }
+        
+        var aInput=document.getElementsByTagName('input');
+            for(var i=0;i<aInput.length;i++){
+                aInput[i].onchange=function(){
+                    var value="M "+startx.value+' '+starty.value+' Q '+controlx.value+' '+controly.value+' '+endx.value+' '+endy.value
+                    path.setAttribute('d',value);
+                    setDot();
+                }
+            }
+    </script>
+</body>
+</html>

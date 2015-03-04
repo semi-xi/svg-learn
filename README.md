@@ -15,7 +15,7 @@ svg learning
 * 直接在HTML中使用svg标签
 * 作为css背景使用
 <pre>
-ex:<div class="div1"></div>
+ex:
 <style type="text/css">
 	.div1{
 		width:50px;
@@ -194,13 +194,48 @@ A (rx, ry, xr, laf, sf, x, y) - 绘制弧线
 * sf - （sweep-flag）是否选择逆时针方向的那一段弧[0,1] 0代表逆时针 1代表顺时针
 * x, y - 弧的终点位置
 
-贝塞尔曲线   
-CSQT(被人称为厕所切图)大写表示绝对位置 小写代表相对自己的位置  
+贝塞尔曲线
+CSQT(被人称为厕所切图)大写表示绝对位置 小写代表相对自己的位置
 * C三次贝塞尔曲线
 * S 三次光滑贝塞尔曲线
 * Q二次贝塞尔曲线
 * T二次光滑贝塞尔曲线
 
-PS： 光滑代表的是可以前一个曲线跟后一个曲线收尾相连。  
-如果是二次贝塞尔曲线，那么最后一个点是这个贝塞尔曲线的起始点  
-如果是三次贝塞尔曲线，那么最后一个点的镜像点作为这个点的第1个控制点这样我们可以就可以省略写一个参数 
+PS： 光滑代表的是可以前一个曲线跟后一个曲线收尾相连。
+如果是二次贝塞尔曲线，那么最后一个点是这个贝塞尔曲线的起始点
+如果是三次贝塞尔曲线，那么最后一个点的镜像点作为这个点的第1个控制点这样我们可以就可以省略写一个参数
+
+## 文字
+### text、textspan 标签
+textspan是text的子元素
+
+属性：
+* x: 文字左下角对齐的x坐标
+* y: 文字左下角对齐的y坐标 跟基线位置对齐(中文)
+* dx： 文字在横向上的偏移，多个变量用空格隔开，表示对多个字符进行偏移控制
+* dy: 同dx，差异在于dy是对文字在垂直方向上的控制
+* style : 设置样式
+* text-anchor : 水平居中
+* dominant-baseline ： 垂直居中（没啥用，应该说出来的不是你想要的）
+
+requestAnimationFram(fn) //动画
+
+如何模拟垂直居中
+对于英文 是对齐基线的。 现在说的是中文的情况:
+利用getBBox() 获取好getBBox().y与跟getBBox().height 以及text的y实现
+
+### 路径文本textpath
+textpath xlink:href 属性 路径
+textpath startOffset 起始点的位置 百分比
+text x属性代表文字在路径上的偏移量,小于0的时候代表最左边的文字会消失
+text y属性 无效
+text text-anchor 文本的位置对齐与起始点 start middle end
+
+ps： 创建textpath的时候需要大写 document.createElementNS('ns','textPath')
+
+
+### 超链接 a
+属性
+xlink:href  链接地址
+xlink:title 提示
+target  打开的方式_blank / _self

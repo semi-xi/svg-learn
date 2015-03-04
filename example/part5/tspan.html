@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path stroke="#F0F0F0" fill="none" d="M0,0H20V20"></path>
+        </pattern>
+    </defs>
+    <rect width="1200" height="1000" fill="url(#grid)"></rect>
+
+    <text x="100" y="100" dy="" style="font-size: 50px; font-family: 'Arial';">
+        <tspan fill="red">AB</tspan><tspan stroke="green" stoke-width="2" fill="none">CDE啊</tspan>
+    </text>
+    <path d="M100,0V200M0,100H200" stroke="red" />
+</svg>
+</body>
+</html>

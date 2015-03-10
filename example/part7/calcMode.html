@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            line-height: 0;
+            font-size: 0;
+        }
+    </style>
+</head>
+<body>
+	<svg width="100%" height="100%">
+		<g>
+			<text x="200" y="200" font-size="50">
+			气质 discrete
+			<animate attributeName="x" form="200" values="200;300;600" begin="0s" dur="2s" calcMode='discrete'></animate>
+			</text>
+			<text x="200" y="300" font-size="50">
+			气质 linear
+			<animate attributeName="x" form="200" values="200;300;600" begin="0s" dur="2s" calcMode='linear'></animate>
+			</text>
+			<text x="200" y="400" font-size="50">
+			气质 paced
+			<animate attributeName="x" form="200" values="200;600" begin="0s" dur="2s" calcMode='paced'></animate>
+			</text>
+			<text x="200" y="500" font-size="50">
+			气质 linear ketTimes
+			<animate attributeName="x" form="200" values="200;300;600" begin="0s" dur="2s" calcMode='linear' keyTimes="0;.7;1"></animate>
+			</text>
+		</g>
+	</svg>
+</body>
+</html>

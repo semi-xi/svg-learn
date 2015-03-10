@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>JavaScript SVG Animation</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" /> <!-- Remove this line in production. -->
+</head>
+
+<body>
+  <svg id="svgElement" width="800px" height="800px" viewBox="0 0 800 800"> <!-- Give the svg element a name so that we can easily access it via JavaScript. -->
+
+    <g transform="translate(400, 400)"> <!-- Create a Cartesian coordinate system (with the y-axis flipped) for the animated square. That is, place the origin at the center of the 800 x 800 SVG viewport: -->
+
+      <!-- A 200 x 200 square with the upper left-hand corner at (-100, -100). This places the center of the square
+      at the origin (0, 0). Give the square a name so we can easily access it via JavaScript: -->
+      <rect id="mySquare" x="-100" y="-100" width="200" height="200" rx="5" ry="5"
+            style=" fill: orange; stroke: black; stroke-width: 3; stroke-dasharray: 10, 5;" />
+
+      <!-- Represents the x-axis: -->
+      <line x1="-400" y1="0" x2="400" y2="0" style="stroke: black;" />
+
+      <!-- Represents the y-axis (although up is negative and down is positive): -->
+      <line x1="0" y1="-400" x2="0" y2="400" style="stroke: black;" />
+
+    </g>
+  </svg>
+  <script>
+    "use strict";
+
+    /* CONSTANTS */
+    var initialTheta = 0; // The initial rotation angle, in degrees.
+    var thetaDelta = 0.3; // The amount to rotate the square about every 16.7 milliseconds, in degrees.
+    var angularLimit = 90; // The maximum number of degrees to rotate the square.
+
+    /* GLOBALS */
+    var requestAnimationFrameID;
+    var mySquare = document.getElementById("mySquare");
+    var transformObject;
+
+    mySquare.currentTheta = initialTheta; // The initial rotation angle to use when the animation starts, stored in a custom property.
+    transformObject = svgElement.createSVGTransform(); // Create a generic SVG transform object so as to gain access to its methods and properties, such as setRotate().
+    mySquare.transform.baseVal.appendItem(transformObject); // Append the transform object to the square object, now the square object has inherited all the transform object's goodness.
+
+    requestAnimationFrameID = requestAnimationFrame(doAnim); // Start the animation loop.
+    function doAnim() {
+      var transformObject;
+
+      if (mySquare.currentTheta > angularLimit) {
+        cancelAnimationFrame(requestAnimationFrameID); // Instruct the browser to stop calling requestAnimationFrame()'s callback.
+        return;
+      }
+
+      mySquare.transform.baseVal.getItem(0).setRotate(mySquare.currentTheta, 0, 0); // Access the transform object (that was appended to mySquare in the init() function) and use its setRotate method to rotate the square about the point (0, 0) (which is at the center of the SVG viewport).
+      mySquare.currentTheta += thetaDelta; // Place this line here so that the square isn't over rotated on the last call to doAnim().
+      requestAnimationFrameID = requestAnimationFrame(doAnim); // Call the doAnim() function about every 60 times per second (i.e., 60 FPS).
+    }
+  </script>
+</body>
+</html>

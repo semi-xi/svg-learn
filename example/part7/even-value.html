@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            line-height: 0;
+            font-size: 0;
+        }
+    </style>
+</head>
+<body>
+	<svg id="svg" width="320" height="200" xmlns="http://www.w3.org/2000/svg">
+    <circle id="circle" cx="100" cy="100" r="50"></circle>
+    <text font-family="microsoft yahei" font-size="120" y="160" x="160">马
+        <animate attributeName="x" to="60" begin="circle.mouseout" dur="3s" />
+    </text>
+</svg>
+</body>
+</html>

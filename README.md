@@ -29,7 +29,6 @@ ex:
 ###1.3 基本的图形和属性
 ####基本图形
 
-=
 * 矩形rect
 * 圆circle
 * 椭圆ellipse
@@ -39,7 +38,6 @@ ex:
 
 ####属性
 
-=
 * fill 填充
 * stroke 边框
 * stroke-width 边框宽度
@@ -82,7 +80,6 @@ YMid YMin YMax
 当高度变大的时候,可以理解为我们看到的东西更高了,相对来说世界在竖直方向上缩小了,这样我们可以看到一些原本在竖直方向上看不到的东西。
 例子的话可以看example part2 -->
 
-=
 解释：视野就是在svg中根据x,y,width,height开辟出来的一块区域,并且把他放大到整个svg区域。根据preserveAspectRatio 属性的不同,对这块位置进行不同的填充策略,也就是显示方式以及对齐方式
 
 
@@ -306,7 +303,7 @@ ps： 可以多个标签自由组合
 * repeatCount,repeatDur 动画执行总次数/重复动画的总时间 可以是普通时间或者是indefinite
 * fill 动画间隙的填充方式  freeze/remove  。 remove是默认值 表示动画结束之后直接回到开始的地方。freeze表示动画结束之后保持动画结束之后的状态
 * accumulate,additive
-    * accumulate 可选none/sum 默认为none  如果是sum，表示动画结束时候的位置座位下次动画的起始位置
+    * accumulate 可选none/sum 默认为none  如果是sum，表示动画结束时候的位置作为下次动画的起始位置
     * additive 是否附加 可选 replace/sum  默认是replace 如果值为sum表示动画的基础知识会附加到其他低优先级的动画上,可以理解为叠加效果,尤其出现在相同attributeName的动画上
-* restart   可选always/whenNoActive/never 默认值always。在触发动画的时候,我们只希望他执行一次或者再执行中不允许被触发这样这个值就有用了。 always表示只要触发就重来,whenNoActive 表示在进行动画的时候触发不会重新开始,直到结束才可以,never表示只会触发一次.
+* restart   可选always/whenNoActive/never 默认值always。在触发式(点击等)动画的时候,我们只希望他执行一次或者在执行中不允许再次被触发这样这个值就有用了。 always表示只要事件触发了就重来,whenNoActive 表示在进行动画的时候触发不会重新开始,直到结束才可以,never表示只会触发一次.
 * ...

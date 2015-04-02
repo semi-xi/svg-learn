@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="js/raphael-min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+</body>
+<script>
+    var paper = Raphael(0, 0, 320, 200);
+    var st = paper.set();
+    st.push(
+        paper.circle(10, 10, 5),
+        paper.circle(30, 10, 5)
+    );
+    st.attr({
+        fill: "red"
+    }); // changes the fill of both circles
+    
+    paper.setStart();
+    paper.circle(50, 10, 5),
+    paper.circle(50, 100, 5)
+    var st = paper.setFinish();
+    st.attr({fill: "blue"}); // changes the fill of both circles
+</script>
+
+</html>

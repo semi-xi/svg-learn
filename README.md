@@ -149,8 +149,9 @@ gradientUnits 使用不同的坐标系来表示渐变的坐标点
 说明：defs标签代表一个引用的集合,使用引用的方法是在图形的fill上使用url+(#+id) 代表在图形上使用某种渐变。渐变的必须都写在defs里面
 
 * 径向渐变
-
-同现行渐变 不过多了个焦点位置
+radialGradient
+cx,cy,r,fx,fy
+同线性渐变 不过多了个焦点位置
 
 
 
@@ -307,3 +308,6 @@ ps： 可以多个标签自由组合
     * additive 是否附加 可选 replace/sum  默认是replace 如果值为sum表示动画的基础知识会附加到其他低优先级的动画上,可以理解为叠加效果,尤其出现在相同attributeName的动画上
 * restart   可选always/whenNoActive/never 默认值always。在触发式(点击等)动画的时候,我们只希望他执行一次或者在执行中不允许再次被触发这样这个值就有用了。 always表示只要事件触发了就重来,whenNoActive 表示在进行动画的时候触发不会重新开始,直到结束才可以,never表示只会触发一次.
 * ...
+
+## 8 注意
+使用 svg需要注意： http://blog.csdn.net/firefight/article/details/1253440

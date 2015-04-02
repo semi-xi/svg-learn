@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="js/raphael-min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+</body>
+<script>
+    var paper = Raphael(10, 50, 320, 200);
+    //    var circle=paper.circle(50,40,10);
+    //    circle.attr('fill','#f00');
+    //    circle.attr('stroke','#fff');
+    paper.add([{
+            type: 'circle',
+            cx: 10,
+            cy: 10,
+            r: 5,
+            fill: '#f00'
+    },
+        {
+            type: 'rect',
+            x: 50,
+            y: 50,
+            width: 100,
+            height: 100,
+            fill: '0F0'
+               }])
+// console.log( paper.bottom)
+   paper.forEach(function(el){
+       el.attr('stroke','blue')
+   })
+    
+</script>
+
+</html>

@@ -132,6 +132,77 @@ paper.path(Raphael.fullfill("M{x},{y}h{dim.width}v{dim.height}h{dim['negative wi
 }
     ```
 
+* Raphael.getSubpath(path,form,to) 截取一段路径   返回的是一个字符串路径
+ path 路径( string) from 开头  to 结束 
+
+* Raphael.getTotalLength(path) 返回这个路径的长度 返回的是长度px
+
+* Raphael.hsl(h,s,l) hsl转换成16进制的颜色值 类似Raphael.hsb(h,s,l)
+
+* Raphael.hsl2rgb(h, s, l)  hsl转换rgb 类似还有 Raphael.hsb2rgb(h, s, b)
+
+* Raphael.isBBoxIntersect(bbox1,bbox2) 判断两个元素的boundingbox是否相交
+
+* Raphael.isPointInsideBBox(bbox , x , y) 判断这个点是否在盒子里面
+
+* Raphael.isPointInsidePath(path,x,y) 判断点是否在这条路径上
+
+* Raphael.mapPath(path, matrix) 对路径进行矩阵变换
+
+* Raphael.matrix(a, b, c, d, e, f)  返回一个线性变换
+
+* Raphael.parsePathString(pathString) 解析这个路径 返回一个包含路径字符串的数组
+
+* Raphael.parseTransformString(TString) 解析这个transform 传回一个数组
+
+* Raphael.pathBBox(path) 给定路径返回一个盒子模型 返回是一个json {x,y,x2,y2,width,height}
+
+* Raphael.pathIntersection(path1,path2) 找到两个的一个相交点  
+```  return 
+[
+{
+x:number
+x coordinate of the point
+y:number
+y coordinate of the point
+t1:number
+t value for segment of path1
+t2:number
+t value for segment of path2
+segment1:number
+order number for segment of path1
+segment2:number
+order number for segment of path2
+bez1:array
+eight coordinates representing beziér curve for the segment of path1
+bez2:array
+eight coordinates representing beziér curve for the segment of path2
+}
+]
+```
+
+* Raphael.rad(deg)  角度转换弧度 感觉是超级有用的东西
+
+*  Raphael.registerFont(font) 定义一个新的字体
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

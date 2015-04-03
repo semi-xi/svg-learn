@@ -14,7 +14,13 @@
     var paper = Raphael(0, 0, 320, 200);
     var src='http://pic1.win4000.com/wallpaper/9/54adf8ab5d312.jpg';
    paper.image(src,10,10,200,100)
-   paper.path("M16,1.466C7.973,1.466,1.466,7.973,1.466,16c0,8.027,6.507,14.534,14.534,14.534c8.027,0,14.534-6.507,14.534-14.534C30.534,7.973,24.027,1.466,16,1.466zM13.665,25.725l-3.536-3.539l6.187-6.187l-6.187-6.187l3.536-3.536l9.724,9.723L13.665,25.725z");
+   var path='M16,1.466C7.973,1.466,1.466,7.973,1.466,16c0,8.027,6.507,14.534,14.534,14.534c8.027,0,14.534-6.507,14.534-14.534C30.534,7.973,24.027,1.466,16,1.466zM13.665,25.725l-3.536-3.539l6.187-6.187l-6.187-6.187l3.536-3.536l9.724,9.723L13.665,25.725z'
+   paper.path(path);
+    var newPath =Raphael.getSubpath(path,20,200);
+    var newPaper=Raphael(0,320,320,200);
+    newPaper.path(newPath)
+    console.log(Raphael.getTotalLength(path))
+    console.log(Raphael.parsePathString(path))
 </script>
 
 </html>

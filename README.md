@@ -14,17 +14,9 @@ svg learning
 * 在HTML中使用img标签引用
 * 直接在HTML中使用svg标签
 * 作为css背景使用
-<pre>
 ex:
-<style type="text/css">
-	.div1{
-		width:50px;
-		height:50px;
 		background-image: url(../img/simple.svg);
 		background-size: 100%;
-	}
-</style>
-</pre>
 
 ###1.3 基本的图形和属性
 ####基本图形
@@ -177,10 +169,10 @@ path由两部分组成 命令+参数 ,参数之间可以用空格或逗号隔开
 * H/h (x)+  从当前位置绘制⽔水平线到达指定的 x 坐标
 * V/v (x)+  从当前位置绘制竖直线到达指定的 y 坐标
 * Z/z   闭合当前路径
-* C/c (x1,y1,x2,y2,x,y)+  从当前位置绘制三次⻉贝塞尔曲线到指定位置
+* C/c (x1,y1,x2,y2,x,y)+  从当前位置绘制三次贝塞尔曲线到指定位置
 * S/s (x2,y2,x,y)+  从当前位置光滑绘制三次贝塞尔曲线到指定位置
 * Q/q (x1,y1,x,y)+  从当前位置绘制二次贝塞尔曲线到指定位置
-* T/t (x,y)+  从当前位置绘制弧线到指定位置
+* T/t (x,y)+  从当前位置光滑绘制弧线到指定位置
 
 
 ps: 命令表说明：

@@ -3,6 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>路径文本</title>
+    <style media="screen">
+        text{
+            stroke-dasharray:100;
+            stroke-dashoffset :200;
+            transition : all ease-in .5s;
+        }
+    </style>
 </head>
 <body>
 <form>
@@ -15,13 +22,15 @@
     </select>
 </form>
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+    <defs>
+
 
     <path id="path1" d="M 100 200 Q 200 100 300 200 T 500 200" stroke="rgb(0,255,0)" fill="none" />
 
     <path id="path2" d="M100,300l100-50,200,100,100,-50" stroke="rgb(255,0,0)" fill="none" />
 
     <path id="path3" d="M100,400A400,300,0,0,0,500,400" stroke="blue" fill="none" />
-
+    </defs>
     <text id="text" x="100" y="100" style="font-size: 20px;">Text path scripting. <tspan id="tspan">动态使用路径文本</tspan></text>
 
 </svg>

@@ -204,23 +204,42 @@ PS： 光滑代表的是可以前一个曲线跟后一个曲线收尾相连。
 如果是三次贝塞尔曲线,那么最后一个点的镜像点作为这个点的第1个控制点这样我们可以就可以省略写一个参数
 
 ## 5.文字
-### text、textspan 标签
-textspan是text的子元素
+### text
 
-属性：
-* x: 文字左下角对齐的x坐标
-* y: 文字左下角对齐的y坐标 跟基线位置对齐(中文)
-* dx： 文字在横向上的偏移,多个变量用空格隔开,表示对多个字符进行偏移控制
-* dy: 同dx,差异在于dy是对文字在垂直方向上的控制
-* style : 设置样式
-* text-anchor : 水平居中
-* dominant-baseline ： 垂直居中（没啥用,应该说出来的不是你想要的）
 
+text 属性
+
+| 属性 | 作用 |
+| --- | ---- |
+| x   | 文字左下角对齐x坐标 |
+| y | 文字左下角对齐的y坐标 跟基线位置对齐(中文) |
+| dx | 文字在横向上的偏移,多个变量用空格隔开,表示对多个字符进行偏移控制 |
+| dy | 同dx,差异在于dy是对文字在垂直方向上的控制 |
+| text-anchor | 水平居中 |
+| dominant-baseline | 垂直居中（没啥用,应该说出来的不是你想要的） |
+| kerning | 表示的意思是字符间距,在视觉上跟`letter-space一致` |
+| writing-mode | 显示垂直文本，值为`tb`，显示从上到下 |
+| glyph-orientation-vertical | 文字垂直显示时，字符显示的角度，0为默认，90的话就是字符不旋转，兼容性极差的一个属性 |
+| direction | 文本显示的走向，可选`ltr` `rtl`  分别表示从左到有和从右到左，但是你必须设置 `unicode-bidi` 为 `bidi-override`|
+| textLength | 文本`<text>`的长度,文本的长度被设置以后就会通过调整字符间距和字形打下来进行适应 |
+| lengthAdjust | 是否改变字符间距和字形大小来进行自适应,`spacing`,通过增加空白来填充。`spacingAndGlyphs`增加空白以及改变字形来调整 |
 requestAnimationFram(fn) //动画
 
 如何模拟垂直居中
 对于英文 是对齐基线的。 现在说的是中文的情况:
 利用getBBox() 获取好getBBox().y与跟getBBox().height 以及text的y实现
+
+### textspan
+textspan是text的子元素
+tspan 属性
+
+| 属性 | 作用 |
+| --- | ---- |
+| baseline-shift   | 将文本定义为上标或者下标,`super`上标 `sub`下标。Firefox不支持(v47) |
+
+### tref
+`<tref>` 元素用于引用在`<defs>`元素中预定义的文本。通过这种方法你可以在SVG图像中多次显示相同的文本而不用重复的书写它们。
+可能以前是一个兼容属性，但是现在是一个不兼容的东西了，我在chrome上测试是不行的，FF跟ie也是一样的结果
 
 ### 路径文本textpath
 textpath xlink:href 属性 路径
@@ -233,10 +252,14 @@ ps： 创建textpath的时候需要大写 document.createElementNS('ns','textPat
 
 
 ### 超链接 a
-属性
-xlink:href  链接地址
-xlink:title 提示
-target  打开的方式_blank / _self
+
+| 属性 | 作用 |
+| --- | ---- |
+| xlink:href   | 链接地址 |
+| xlink:title   | 提示 |
+| target | 打开的方式_blank / _self |
+| xlink:show | 打开的方式 如果是在iframe嵌入svg的话，当值为`new`的时候,会在新的窗口打开,如果为`replace`则把iframe的地址替换为连接的地址 |
+
 
 ##  6.图形的引用、裁切和蒙版
 * use  标签,利用属性xlink:href=#id 引用图形
@@ -288,18 +311,113 @@ ps： 可以多个标签自由组合
     * calcMode
         * discrete from值直接跳到to值。
         * linear 默认值 value值之前的变化速率是一致的ex values="200;300;600"
-        * paced  定义了贯穿整个动画变化产生平稳步调的写入方式。仅支持线性数值区域内的值，这样点之间“距离”的概念才能被计算,当cakcMode值为paced时,keyTimes、keySplines无效
-        * spline 插值的贝塞尔曲线 。spline的点定义在keyTimes属性中，每个时间间隔控制点由ketSpline定义
-    * keyTimes 分号间隔的一组值，名字上是关键时间点的意思。如果有values属性，那么keyTimes的值得数目要与values的值得数目一致,
+        * paced  定义了贯穿整个动画变化产生平稳步调的写入方式。仅支持线性数值区域内的值,这样点之间“距离”的概念才能被计算,当cakcMode值为paced时,keyTimes、keySplines无效
+        * spline 插值的贝塞尔曲线 。spline的点定义在keyTimes属性中,每个时间间隔控制点由ketSpline定义
+    * keyTimes 分号间隔的一组值,名字上是关键时间点的意思。如果有values属性,那么keyTimes的值得数目要与values的值得数目一致,
     * keySplines 表示耳朵是与KeyTimes相关联的一组贝塞尔控制点(默认是0 0 1 1),控制点使用4个浮点值x1 y1 x2 y2 只有spline参数的时候才有用 范围值0-1,总是比keyTimes少1个值
     * 说明：动画,实际上是values,keyTimes,keySplines。values确定动画的关键位置,keyTimes确定到这个关键点需要的时间,keySplines确定的是每个时间点段之间的贝塞尔曲线,也就是具体的缓动表现,我们平时CSS3写的transition动画效果,也是这么回事,这是values值就两个,所以,keyTimes只能是0;1, 贝塞尔曲线就只有一个,要不ease, 要不linear等
 * repeatCount,repeatDur 动画执行总次数/重复动画的总时间 可以是普通时间或者是indefinite
 * fill 动画间隙的填充方式  freeze/remove  。 remove是默认值 表示动画结束之后直接回到开始的地方。freeze表示动画结束之后保持动画结束之后的状态
 * accumulate,additive
-    * accumulate 可选none/sum 默认为none  如果是sum，表示动画结束时候的位置作为下次动画的起始位置
+    * accumulate 可选none/sum 默认为none  如果是sum,表示动画结束时候的位置作为下次动画的起始位置
     * additive 是否附加 可选 replace/sum  默认是replace 如果值为sum表示动画的基础知识会附加到其他低优先级的动画上,可以理解为叠加效果,尤其出现在相同attributeName的动画上
 * restart   可选always/whenNoActive/never 默认值always。在触发式(点击等)动画的时候,我们只希望他执行一次或者在执行中不允许再次被触发这样这个值就有用了。 always表示只要事件触发了就重来,whenNoActive 表示在进行动画的时候触发不会重新开始,直到结束才可以,never表示只会触发一次.
 * ...
 
-## 8 注意
+## 8 特殊的标签
+### defs
+ `<defs>`通常用于定义需要复用的图像元素,在这里面的内容都不会被显示出来，而是作为一种`xlink:href`的引用。  
+ 也可以直接用`<use>`标签用`xlink:href`引用,这样就不用去想要用什么标签来引用了。
+ 部分元素必须用在 `<defs>`里面,例如`<marker>`
+
+### marker
+ SVG 标记用于标明直线或者路径等的开始,中点或者结束。可用于`<path>` `<line>` `<polyline>` `<polygon>`
+
+`marker属性`
+
+属性必须得放在`style`里面才能使用
+
+| 属性名 | 作用 | 例子 |
+| ----- | --- | ---- |
+| `marker-start` | 指明路径的开始点的标记 | ` marker-start: url(#markerCircle)`,markerCircle是一个在defs定义好的标记 |
+| `marker-mid` | 指明路径的中间点的标记 | ` marker-mid: url(#markerCircle)`,markerCircle是一个在defs定义好的标记 |
+| `marker-end` | 指明路径的结束点的标记 | ` marker-end: url(#markerCircle)`,markerCircle是一个在defs定义好的标记 |
+| `orient` | 值为`auto`时,标记内的图形会自动旋转适应路径的需要 | - |
+| `refX` | 标记所在的X位置,0表示在路径的左对齐 | `refX="[number]"` |
+| `refY` | 标记所在的Y位置,0表示在路径的顶部对齐 | `refY="[number]"` |
+| `markerUnits` | 标记的缩放 | 默认是`strokeWidth`,如果不需要的话可以设置 `userSpaceOnUse`,这样就会忽略了 |
+
+### symbol
+用于定义可重复使用的符号  
+一个`<symbol>`元素可以有`preserveAspectRatio`和`viewBox`属性。而<g>元素不能拥有这些属性。因此相比于在`<defs>`元素中使用`<g>`的方式来复用图形，使用`<symbol>`元素也许是一个更好的选择。
+
+### use
+元素可以在SVG图像中多次重用一个预定义的SVG图形,并且可以改变他们的样式
+## 9 注意
 使用 svg需要注意： http://blog.csdn.net/firefight/article/details/1253440
+
+## svg和css级联样式表
+
+### 使用属性
+svg标签都会自带一些属性可供使用,例如`stroke` `fill` 等
+### style 属性
+`style="stroke: #000000; fill:#00ff00;" `
+### 内联样式表
+
+```html
+<style type="text/css" >
+      <![CDATA[
+        circle {
+           stroke: #006600;
+           fill:   #00cc00;
+        }
+
+      ]]>
+    </style>
+```
+### 内敛class
+```html
+<svg xmlns="http://www.w3.org/2000/svg">
+
+    <style type="text/css" >
+      <![CDATA[
+
+        circle.myGreen {
+           stroke: #006600;
+           fill:   #00cc00;
+        }
+       circle.myRed {
+       stroke: #660000;
+       fill:   #cc0000;
+    }
+
+      ]]>
+    </style>
+
+    <circle  class="myGreen" cx="40" cy="40"  r="24"/>
+    <circle  class="myRed"   cx="40" cy="100" r="24"/>
+</svg>
+```
+### 外部样式表
+
+```html
+<?xml-stylesheet type="text/css" href="svg-stylesheet.css" ?>
+```
+### 页面的style
+```html
+<html>
+<body>
+
+<style>
+</style>
+ 
+<svg>
+</svg>
+
+</body>
+</html>  
+html
+## 10 学习地址
+1. [SVG系列教程目录](http://www.htmleaf.com/ziliaoku/qianduanjiaocheng/201507082192.html 'SVG系列教程目录')
+1. [MDN SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG 'MDNSVG')
+1. [SVG Tutorial](http://www.lychaox.com/svg/index.php 'SVG Tutorial')  (ps,这里在symbol后面的都是英文,应该是没有翻译，可以看第1个)

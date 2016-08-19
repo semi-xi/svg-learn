@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <svg width="660" height="220" style="outline: 1px solid red; font-size: 2em; overflow: visible;">
+      <defs>
+        <text id="referenced-2">SVG</text>
+      </defs>
+
+      <text>
+        <tspan x="280" y="80">
+          <tref xlink:href="#referenced-2"/> 1
+        </tspan>
+        <tspan x="280" dy="36" fill="red">
+          <tref xlink:href="#referenced-2"/> 2
+        </tspan>  
+      </text>
+    </svg>
+
+</body>
+</html>

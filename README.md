@@ -272,20 +272,31 @@ ps： 创建textpath的时候需要大写 document.createElementNS('ns','textPat
 看例子example/part6
 
 
-## 7.动画
+## 7.动画SMIL
+目前谷歌 45以上已经弃用了svg的动画，尽量的减少这类的使用以及转向css3动画跟canvas动画
+### transform
+当用transform的rotate变化时,需要改变中心的话,在svg中,在svg中,使用的应该是rotate(x y deg) 这样的方式去写(x,y)旋转中心。注意是在svg的方法中这样写,css3还是用之前的方法。  
+还有一个需要注意的点就是,角度不能写其他单位,默认是`deg`,旋转点也不能写百分比,必须使用绝对坐标系统,写一个确定的坐标。
 
+
+### animate
 标签:
-* set 不能触发连续动画,只能在特定时间修改某个属性值
-* animate 基础动画 实现单属性过渡效果
-* animateColor 已废
-* animateTransform transform变换
-* animateMotion 路径
+
+| 标签名 | 标签描述 |
+| ---- | ---- |
+| set | 不能触发连续动画,只能在特定时间修改某个属性值,可以用来设置延迟时间,跟animate本身是有动画冲突的 |
+| animate | 基础动画 实现单属性过渡效果 |
+| animateColor | 已废 |
+| animateTransform | transform变换 |
+| animateMotion | 路径 |
+| mpath | 指定运动路径,是animateMotion的子级 |
+
 ps： 可以多个标签自由组合
 
 
 属性 :
 * attributeName 变化的元素属性名称 可以是css属性:opacity 或者是标签本身的属性x,y 等等
-* attributeType  表明attributeName的属性列表属于什么。值:css/xml/auto ,对于x,y属于xml,传统的css属性则属于css,也可以让浏览器自己判断,不确定的时候可以不写,让浏览器自己判断
+* attributeType  表明attributeType命名空间。可选值:css/xml/auto ,对于x,y属于xml,传统的css属性则属于css,也可以让浏览器自己判断,不确定的时候可以不写,让浏览器自己判断
 * form,to,by,values
     * form 起始值
     * to 结束值
@@ -321,14 +332,21 @@ ps： 可以多个标签自由组合
 * accumulate,additive
     * accumulate 可选none/sum 默认为none  如果是sum,表示动画结束时候的位置作为下次动画的起始位置
     * additive 是否附加 可选 replace/sum  默认是replace 如果值为sum表示动画的基础知识会附加到其他低优先级的动画上,可以理解为叠加效果,尤其出现在相同attributeName的动画上
-* restart   可选always/whenNoActive/never 默认值always。在触发式(点击等)动画的时候,我们只希望他执行一次或者在执行中不允许再次被触发这样这个值就有用了。 always表示只要事件触发了就重来,whenNoActive 表示在进行动画的时候触发不会重新开始,直到结束才可以,never表示只会触发一次.
+* restart   
+在触发式(点击等)动画的时候,我们只希望他执行一次或者在执行中不允许再次被触发这样这个值就有用了。
+
+| 可选值 | 说明 |
+| ----- | ---- |
+| `always` | 默认值,动画可以在任何时候被重置 |
+| `whenNoActive` | 只有在动画没有被激活的时候才能被重置。例如在动画结束之后。 |
+| `never` | 在整个SVG执行的过程中，元素动画不能被重置。 |
 * ...
 
 ## 8 特殊的标签
 ### defs
  `<defs>`通常用于定义需要复用的图像元素,在这里面的内容都不会被显示出来，而是作为一种`xlink:href`的引用。  
  也可以直接用`<use>`标签用`xlink:href`引用,这样就不用去想要用什么标签来引用了。
- 部分元素必须用在 `<defs>`里面,例如`<marker>`
+ 部分元素必须用在 `<defs>`里面,例如`<marker>` , `<linearGradient>` , `<radialGradient>`
 
 ### marker
  SVG 标记用于标明直线或者路径等的开始,中点或者结束。可用于`<path>` `<line>` `<polyline>` `<polygon>`
@@ -410,7 +428,7 @@ svg标签都会自带一些属性可供使用,例如`stroke` `fill` 等
 
 <style>
 </style>
- 
+
 <svg>
 </svg>
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+    *{
+        margin: 0;padding: 0;
+    }
+        svg{
+            border: 1px solid #000;
+            position: absolute;
+            left: 10px;
+            top: 20px;
+        }
+        div{
+            position: absolute;
+            /*left: 100px;
+            top: 100px;*/
+        }
+    </style>
+</head>
+<body>
+    <div class="svgdom"></div>
+    <script src="./src/svg.js" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    var draw = SVG(document.querySelector('.svgdom')).size(400,400);
+    var rect = draw.rect(100,100).x(100).y(100);
+    draw.translate(120,200)
+    // console.log(draw.spof());
+//     var nested = draw.nested()
+//
+// var rect = nested.rect(200, 200)
+</script>
+</html>

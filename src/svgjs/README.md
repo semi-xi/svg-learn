@@ -259,5 +259,50 @@ var line = draw.line(0, 0, 100, 150).stroke({ width: 1 })
 
 ### plot()
 
+更新一个直线可以用`plot()`来更新
+
 ```javascript
+line.plot(50, 30, 100, 150)
+```
+
+或者它也接受传入的参数是一个坐标字符串
+
+```javascript
+line.plot('0,0 100,150')
+```
+
+或者参数是一个数组
+
+```javascript
+line.plot([[0, 0], [100, 150]])
+```
+
+也可以用`SVG.PointArray`代替
+
+```javascript
+var array = new SVG.PointArray([[0, 0], [100, 150]])
+line.plot(array)
+```
+`returns`: `itself`
+
+### 坐标点(array())
+
+参考于 `SVG.PointArray`的实例，这个方法只能限于内部使用  
+方法的作用是一个数组，数组的每一个值都是包含x,y的点
+`returns`: `SVG.PointArray`
+
+## 折线(Polyline)
+
+折线它定义一组连接在一起的直线,它的形状不是闭合在一起的，也就是起点跟终点不是不会直接连接
+
+```javascript
+var polyline = draw.polyline('0,0 100,50 50,100').fill('none').stroke({ width: 1 })
+```
+
+折线他是由一组用空格分割的点组成的，就像这样`x,y x,y x,y`
+如果你用一组数组的话，也是同样可以绘制出的，就像下面这样
+
+```javascript
+// polyline([[x,y], [x,y], [x,y]])
+var polyline = draw.polyline([[0,0], [100,50], [50,100]]).fill('none').stroke({ width: 1 })
 ```

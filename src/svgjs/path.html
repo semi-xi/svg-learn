@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        var draw = SVG('drawing').size(1000,1000)
+        draw.viewbox(0, 0, 300, 300);
+        draw.path('M 100 200 C 200 100 300  0 400 100 C 500 200 600 300 700 200 C 800 100 900 100 900 100').fill('none').stroke({
+            'width':2,
+            color:'red'
+        })
+    }
+</script>
+</html>

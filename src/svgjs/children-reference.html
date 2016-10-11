@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+    <div id="drawing2"></div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var rect2 = draw.rect(100,100).move(200,200).fill('red');
+
+    // rect2.attr('x', 50, 'http://www.w3.org/2000/svg');
+    var nested = draw.nested().addClass('test')
+    var group  = nested.group()
+    var rect   = group.rect(100, 100);
+    var circle = group.circle(20).fill('#000').move(100,0)
+
+    console.log(group.children());
+    console.log('is has rect');
+    console.log(group.has(rect));
+
+    console.log(group.svg());
+
+    var ccc = draw.svg('<g><rect width="100" height="50" fill="#f06"></rect></g>');
+    console.log(ccc);
+</script>
+
+</html>

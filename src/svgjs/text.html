@@ -60,12 +60,13 @@
           add.tspan(function(addMore) {
             addMore.tspan('And you can doo deeper and deeper...')
           })
+          add.tspan('this is new line').newLine();
         })
         text4.build(false) // disables build mode
 
         // text4.plain('anddd');
-        // text4.clear();
-        var text5 = draw.plain('kasdasd').dy(140)
+        text4.clear();
+        var text5 = draw.plain('kasdasd').dy(180)
         console.log(text5.length());
         console.log(text5.lines());
         // tspan.animate('2s').fill('#f06')

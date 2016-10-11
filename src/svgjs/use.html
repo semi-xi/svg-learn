@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        var draw = SVG('drawing').size(1000, 1000);
+
+        var rect = draw.rect(100, 100).fill('#f09'); //不放在引用
+        // var rect = draw.defs().rect(100, 100).fill('#f09');
+        var use  = draw.use(rect).move(200, 200);
+        setTimeout(function(){
+            rect.fill('#000')
+        },3000)
+
+    }
+</script>
+
+</html>

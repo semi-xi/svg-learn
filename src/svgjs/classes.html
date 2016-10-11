@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+    <div id="drawing2"></div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var rect2 = draw.rect(100,100).move(200, 200);
+    rect2.style({
+        'fill':'red',
+        'stroke-width':2,
+        'stroke':'#000'
+
+    })
+    rect2.animate('2s').opacity(.5);
+    rect2.addClass('a1');
+    rect2.addClass('a12');
+    rect2.addClass('a13');
+    rect2.toggleClass('a1');
+
+    draw.circle(40).fill('#000').radius(40).attr({
+        'cx':100,
+        'cy':100
+    })
+    console.log(rect2.classes().indexOf('a1'));
+</script>
+
+</html>

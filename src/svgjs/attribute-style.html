@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+    <div id="drawing2"></div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var rect2 = draw.rect(100,100).move(200, 200);
+    rect2.style({
+        'stroke-width':2,
+        'stroke':'#000'
+
+    })
+    rect2.animate('2s').opacity(.5);
+    var image = draw.image('http://n1.itc.cn/img8/wb/smccloud/recom/2015/11/14/144748156684605986.JPEG','20','20')
+    rect2.fill(draw.image('http://n1.itc.cn/img8/wb/smccloud/recom/2015/11/14/144748156684605986.JPEG','20','20'))
+    image.hide();
+    console.log(rect2.style('stroke-width'));
+</script>
+
+</html>

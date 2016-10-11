@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+    <div id="drawing2"></div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var rect2 = draw.rect(100,100).move(200,200).fill('red')
+    console.log(draw.parent());
+    // var rect = draw.rect(100,200).fill('red');
+    // var line = draw.line(100,100,200,200).stroke({
+    //     'width':2,
+    //     color:"#000"
+    // })
+    // rect.node.style['width'] = '130px'
+    // // console.log(rect.node.style );
+    // console.log(rect.parent());
+    var nested = draw.nested().addClass('test')
+    var group  = nested.group()
+    var rect   = group.rect(100, 100)
+
+
+    console.log('parent');
+    console.log(rect.parent() )          //-> returns group
+    console.log('svg.doc');
+    console.log(rect.parent(SVG.Doc) )   //-> returns draw
+    console.log('svg.nested');
+    console.log(rect.parent(SVG.Nested) )//-> returns nested
+    console.log('svg.g');
+    console.log(rect.parent(SVG.G)     ) //-> returns group
+    console.log('.test');
+    console.log(rect.parent('.test') )   //-> returns nested
+    console.log('draw doc');
+    console.log(rect2.doc());
+</script>
+
+</html>

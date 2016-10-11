@@ -422,6 +422,7 @@ svg标签都会自带一些属性可供使用,例如`stroke` `fill` 等
 <?xml-stylesheet type="text/css" href="svg-stylesheet.css" ?>
 ```
 ### 页面的style
+
 ```html
 <html>
 <body>
@@ -434,7 +435,8 @@ svg标签都会自带一些属性可供使用,例如`stroke` `fill` 等
 
 </body>
 </html>  
-html
+```
+
 ## 10 学习地址
 1. [SVG系列教程目录](http://www.htmleaf.com/ziliaoku/qianduanjiaocheng/201507082192.html 'SVG系列教程目录')
 1. [MDN SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG 'MDNSVG')

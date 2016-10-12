@@ -1,4 +1,4 @@
-# SVG.js
+# SVG.js 中文说明
 
 ## 说明
 网上好像没有相关的中文文档，这样的话我就自己写一个了，按照官方那边的来写
@@ -6,6 +6,9 @@
 [SVG.js官网GitHub](https://github.com/wout/svg.js 'svg.js');
 
 支持IE9+
+
+另外这个翻译仅仅只是个人学习交流之用啊，千万别作其他用途，另外很多都是自己的理解，看不懂的话可以去看下源文。小白一个就不要吐槽那么多了
+
 
 ## 用法
 ### Create an SVG document 创建一个SVG的节点
@@ -1460,8 +1463,445 @@ circle.attr({ x: 50, y: 40 })
 ```js
 rect.cx(20).cy(60)
 circle.x(50).y(40)
-
 ```
+PS: 这里的话rect会按照中心点进行偏移左上角(20, 60),circle会按照左上角偏移(50, 40)
+
+
+然而，重要的是要注意，这些方法仅仅适用于无单位的用户坐标系。例如，如果元素的大小是通过百分比或其他单位设置，那么通过自有属性去定位方法很有可能依然有效，但是解决非自有属性的定位方法将会产生其他无法预计的结果，比如`getter`和`setter`
+
+```js
+rect.cx('20px').cy('60px') //出来的是0，0
+circle.x('50px').y('40px') // 出来0,0
+```
+
+### size()
+
+用`width`和`height`设置元素的尺寸
+
+```js
+rect.size(200, 300)
+```
+
+省略高度也可以按比例调整大小
+PS:对于svg本身来说，一个参数只会为它设置宽度，高度还是0的，所以应该是只对部分节点有效果，例如image
+
+```js
+rect.size(200)
+```
+
+或者也可以设置`width`为null
+
+```js
+rect.size(null, 200)
+```
+
+与定位不一样，元素的尺寸可以通过`attr()`设置。因为当每种类型的元素改变他们的各种尺寸，用`size()`方法都是非常合适的。
+
+有一个是例外的，对于`SVG.Text`元素，方法只需要传1个参数，并将它的值给`font-size`
+
+`returns`: `itself`
+
+### width()
+
+设置元素的`width`
+
+```js
+rect.width(200)
+```
+
+这个方法也可以获取元素的`width`
+
+```js
+rect.width() //-> returns 200
+```
+
+`getter` `returns`: `value`
+`setter` `returns`: `itself`
+
+### height()
+
+设置元素`width()`
+
+```js
+rect.height(325)
+```
+
+也可以获取元素的`height`
+
+```js
+rect.height() //-> returns 325
+```
+
+`getter` `returns`: `value`
+`setter` `returns`: `itself`
+
+
+### radius()
+
+`circle`、`ellipses`和`rect`都会需要用到`radius()`方法，对于`rect`，它定义的是圆角。对于`circle`，它定义的是`r`属性，也就是半径属性
+
+```js
+circle.radius(10)
+```
+
+对于`ellipses`跟`rect`，传递两个参数以单独设置`rx`和`ry`属性，或者设置一个属性让两个值相等
+
+```js
+ellipse.radius(10, 20)
+rect.radius(5)
+```
+
+此功能需要包含在默认分发中的sugar.js模块。
+
+`returns`: `itself`
+
+## move()
+
+根据左上角移动元素到指定的`x`,`y`位置
+
+```js
+rect.move(200, 350)
+```
+
+`returns`: `itself`
+
+### x()
+
+根据左上角位置，在x方向上移动元素
+
+```js
+rect.x(200)
+```
+
+无参数的时候`x()`方法可以获取出x坐标值
+
+```js
+rect.x() //-> returns 200
+```
+
+`getter` `returns`: `value`
+`setter` `returns`: `itself`
+
+### y()
+
+根据左上角位置，在y方向上移动元素
+
+```js
+rect.y(350)
+```
+
+无参数的时候`Y()`方法可以获取出y坐标值
+
+```js
+rect.y() //-> returns 350
+```
+
+`getter` `returns`: `value`
+`setter` `returns`: `itself`
+
+### center()
+
+根源元素中心位置位置，移动元素
+
+```js
+rect.center(150, 150)
+```
+
+`returns`: `itself`
+
+
+### cx()
+
+根据元素中心位置，在x方向上移动元素
+
+```js
+rect.cx(200)
+```
+
+无参数的时候，可以获取元素中心在x方向的位置值
+
+```js
+rect.cx() //-> returns 200
+```
+
+`getter` `returns`: `value`
+`setter` `returns`: `itself`
+
+### cy()
+
+根据元素中心位置，在y方向上移动元素
+
+```js
+rect.cy(350)
+```
+
+无参数的时候，可以获取元素中心在y方向的位置值
+
+```js
+rect.cy() //-> returns 350
+```
+
+`getter` `returns`: `value`
+`setter` `returns`: `itself`
+
+### dmove()
+
+根据元素现有的位置，在x，y方向上移动元素
+PS:不是通过设置translate来算的，而是根据元素的位置 然后根据传参值去动态计算相对位置
+```js
+rect.dmove(10, 30)
+```
+
+`returns`: `itself`
+
+### dx()
+
+根据元素现有的位置，在x方向上移动元素
+
+```js
+rect.dx(200)
+```
+
+`returns`: `itself`
+
+### dy()
+
+根据元素现有的位置，在y方向上移动元素
+
+```js
+rect.dy(200)
+```
+
+`returns`: `itself`
+
+## Document tree manipulations 文档树操作
+
+### clone()
+
+要准确的复制一个元素，用`clone()`就很方便
+
+```js
+var clone = rect.clone()
+```
+
+`returns`: `element`
+
+这将创建一个新的，没有链接的复制副本。如果要创建带链接的克隆，请参阅use元素。默认情况下，克隆元素会防止在原始元素之后。当parent参数传给clone()方法时，它会将克隆的元素附加到给定的parent.
+
+PS: 这里说的链接应该是那种类似fill(#id)的这种类似引用吧。
+
+```js
+var group = draw.group();
+var clone = rect.clone(group)
+```
+
+### remove()
+
+在svg节点中移除给定的元素
+
+```js
+rect.remove()
+```
+
+`returns`: `itself`
+
+### replace()
+
+
+在svg文档中的找到元素的位置，通过这个方法用参数元素替换掉找到的元素
+PS:下面的例子是用圆替换矩形,返回的element是参数的这个element而不是调用的element
+
+```js
+rect.replace(draw.circle(100))
+```
+
+`returns`: `element`
+
+### add()
+
+将调用的参数设置为父级的子节点，并返回父节点
+
+```js
+var rect = draw.rect(100, 100)
+var group = draw.group()
+
+group.add(rect) //-> returns group
+```
+
+`returns`: `itself`
+
+### put()
+
+将调用的参数设置为父级的子节点，并返回子节点
+
+```js
+group.put(rect) //-> returns rect
+```
+
+`returns`: `element`
+
+### addTo()
+
+将调用元素作为一个子节点，并返回子节点
+
+```js
+rect.addTo(group) //-> returns rect
+```
+
+`returns`: `itself`
+
+### putIn()
+
+将调用元素作为一个子节点，并返回父节点
+```js
+rect.putIn(group) //-> returns group
+```
+
+`returns`: `element`
+
+
+### toParent()
+
+将元素移动到不同的父级(类似于`addTo()`)，但不更改其可是变化。所有的变换都合并并应用于元素
+
+```js
+rect.toParent(group) // looks the same as before
+```
+
+`returns`: `itself`
+
+### toDoc()
+
+跟`toParent()`是一样的，不过是增加到根目录
+
+`returns`: `itself`
+
+### ungroup() / flatten()
+
+分解`group`或者容器，并将所有的元素移动到给定的父节点，而不更改其可视化显示。带来的结果是svg的结构是扁平的。就像例子这样：
+
+```js
+// ungroups all elements in this group recursively and places them into the given parent
+// 取消此分组中的所有元素，并将它们放置到给定的父级
+// (default: parent container of the calling element)
+// 默认放置到父容器
+group.ungroup(parent, depth)
+
+// call it on the whole document to get a flat svg structure
+// 整个文档中调用它会是的整个svg都是一个扁平的结构
+drawing.ungroup()
+
+// breaks up the group and places all elements in drawing
+// 分解组并将所有元素放置到drawing中
+group.ungroup(drawing)
+
+// breaks up all groups until it reaches a depth of 3
+// 打破所有的分组，从第几级开始
+drawing.ungroup(null, 3)
+
+// flat and export svg
+var svgString = drawing.ungroup().svg()
+```
+
+自己的试验
+
+```js
+var group = draw.group().group().group().group().group();
+group.add(draw.rect(100,50100));
+group(draw,2); // 第2级开始打破，因为都是分组，所以什么情况都没发生 只有当 depth 为5的时候才会出现完全打破
+
+var group2 = draw.group();
+group2.add(draw.rect(50, 50))
+group2(draw,1); //解除所有分组，rect在draw上
+```
+
+PS： 第2个参数应该是用来指定如果一个元素的层级超过了n层，当且仅当需要解绑的第n层有不属于group的元素才能解绑，否则不解绑。个人感觉是如果需要解绑全部那样只需要写1个参数就可以了。第2个参数的作用就是为了解绑如果一个group中同时含有group跟非group的时候才有用。
+
+`returns`: `itself`
+
+## Transforms 变换
+
+### transform()
+
+`transform()`无参数的时候可以被当做一个`getter`
+
+```js
+element.transform()
+```
+
+返回值是一个`object`,包含下面的这些值：
+
+* x
+* y
+* skewX
+* skewY
+* rotation
+* cx
+* cy
+
+PS：上面是官方写得，但是我自己写的时候还包括了下面这几个
+
+* transformedX
+* transformedY
+* matrix:{a,b,c,d,e,f}
+* a
+* b
+* c
+* d
+* e
+* f
+
+PS： abcdef应该是那个矩阵变化的值
+
+
+此外还可以传递一个字符串用于获取
+
+```js
+element.transform('rotation')
+```
+
+在这个例子中返回回来的是一个`number`值
+
+当作`setter`的时候，它有两种方式去设置。默认情况下变换是绝对的，就像下面这样，如果你调用
+PS：大概的意思是，他只会取最后的那个值
+
+```js
+element.transform({ rotation: 125 }).transform({ rotation: 37.5 })
+```
+
+这个旋转的结果是`37.5`，而不是两个变换相加。但是如果这是你想要的话，那么可以添加一个`relative`参数。就像这样
+
+```js
+element.transform({ rotation: 125 }).transform({ rotation: 37.5, relative: true })
+```
+
+或者，可以将`relative`作为第2个参数传递
+
+```js
+element.transform({ rotation: 125 }).transform({ rotation: 37.5 }, true)
+```
+
+可用的转换还包括
+
+* rotation 可选`cx`或`cy`
+* scale 可选`cx`或`cy`
+* scaleX 可选`cx` 或cy
+* scaleY
+* skewX
+* skewY
+* x
+* y
+* a,b,c,d,e,f 或者一个矩阵变换对象`matrix`
+
+PS：他这里的意思是，你这个object对象里面如果是左边的那些，那么还可以选上那些可选的，可选之外的就不行了
+```js
+rect2.animate('2s').transform({ rotation: 90 ,cx:90,cy:100});
+```
+`getter` `returns`: `value`
+
+`setter` `returns`: `itself`
+
+### rotate()
 
 
 

@@ -28,6 +28,8 @@
 <script type="text/javascript">
     var draw = SVG('drawing').size(1000,1000);
     // draw.size(200)
+    var group = draw.group();
+    var group2 = draw.group();
     var rect2 = draw.rect(100,100);
     rect2.style({
         'stroke-width':2,
@@ -38,13 +40,19 @@
     var image = draw.image('http://n1.itc.cn/img8/wb/smccloud/recom/2015/11/14/144748156684605986.JPEG','500','400').move(200,50)
     rect2.fill(draw.image('http://n1.itc.cn/img8/wb/smccloud/recom/2015/11/14/144748156684605986.JPEG','20','20'))
     image.size(200)
-    // image.hide();
     draw.circle(100).fill('red').x(40).y(40)
     var ellipse = draw.ellipse(100, 100).fill('blue');
     ellipse.dmove(100,200)
-    // rect2.cx('200px').cy('100px')
-    rect2.cx(200).cy(100)
-    console.log(rect2.style('stroke-width'));
+    rect2.cx(200).cy(100);
+
+    // var  r = group.add(ellipse);
+    // var r = group.put(ellipse);
+    // var r = ellipse.addTo(group);
+    var r = group.put(ellipse);
+    var r2 = rect2.addTo(group2);
+    r2.toParent(group)
+    console.log(r);
+    console.log(r2)
 </script>
 
 </html>

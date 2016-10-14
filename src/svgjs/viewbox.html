@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+    <div id="drawing2"></div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000,1000);
+    draw.viewbox({ x: 0, y: 0, width: 1000, height: 1000 });
+    var rect = draw.rect(100,100).move(50,50)
+    rect.transform({
+        'scaleX':0.5,
+        'scaleY':0.5
+    })
+    var box1 = rect.rbox()
+    // rect.transform({x:100,y:100})
+    var box2 = draw.rect(100,100).move(200,200).tbox()
+    var box3 = box1.merge(box2)
+    // var box = rect.merge(rect2);
+    console.log(box1);
+    // console.log(box3);
+    // console.log(rect.bbox());
+</script>
+
+</html>

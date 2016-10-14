@@ -1903,6 +1903,257 @@ rect2.animate('2s').transform({ rotation: 90 ,cx:90,cy:100});
 
 ### rotate()
 
+`rotate()`方法，将元素自身为中心旋转元素
+
+```js
+// rotate(degrees)
+rect.rotate(45)
+```
+
+也可以自定义一个旋转点
+
+```js
+// rotate(degrees, cx, cy)
+rect.rotate(45, 50, 50)
+```
+
+`returns`: `itself`
+
+### skew()
+
+`skew()`方法需要一个`x`和`y`值
+
+```js
+// skew(x, y)
+rect.skew(0, 45)
+```
+
+`returns`: `itself`
+
+### scale()
+
+`scale()`方法需要一个`x`和`y`值
+
+```js
+// scale(x, y)
+rect.scale(0.5, -1)
+```
+
+`returns`: `itself`
+
+### translate()
+
+`translate()`方法需要一个`x`和`y`值
+
+```js
+// translate(x, y)
+rect.translate(0.5, -1)
+```
+`returns`: `itself`
+
+## Geometry 盒子模型
+
+### viewbox()
+
+可以使用`viewbox()`方法管理`<svg>`的viewBox属性。当提供四个参数时，它将作为一个`setter`
+
+```js
+draw.viewbox(0, 0, 297, 210)
+```
+
+或者你可以提供一个`object`作为第一个参数
+
+```js
+draw.viewbox({ x: 0, y: 0, width: 297, height: 210 })
+```
+
+当没有任何参数的时候，会返回一个`SVG.ViewBox`的实例
+
+```js
+var box = draw.viewbox()
+```
+
+但是`viewbox()`方法的最好的事情是你可以获得viewbox的缩放
+
+```js
+var box = draw.viewbox()
+var zoom = box.zoom
+```
+
+如果svg的viewbox尺寸跟svg在画布上的尺寸是相同的话，那么这个zomm将会是1
+
+`getter` `returns`: `SVG.ViewBox`
+
+`setter` `returns`: `itself`
+
+### bbox();
+
+获取元素的边界，用的是原生的`getBBox()`，只是在外面包了一层并增加了更多的值
+
+```js
+path.bbox()
+```
+
+这会返回一个`SVG.BBox`的实例，包括下面的这些值
+
+* width (来自原生的`getBBox`)
+* height (来自原生的`getBBox`)
+* w (简写 `width`)
+* h (简写 `height`)
+* x (来自原生的`getBBox`)
+* y (来自原生的`getBBox`)
+* cx (中心点距离边界x方向的距离)
+* cy (中心点距离边界y方向的距离)
+* x2 (边界右下角的x距离)
+* y2 (边界右下角的y距离)
+
+`SVG.BBox`还有一个很好的小功能，`merge()`方法。使用`merge()`可以将两个`SVG.BBox`实例合并成一个新的实例，这样新的边界就会是两个边界合并到一起了。
+
+PS：原来的时候我们做bbox的时候只能获取单个元素的，merge2个元素的话，那么2个元素就会组成一个新的边界模型。
+
+
+```js
+var box1 = draw.rect(100,100).move(50,50)
+var box2 = draw.rect(100,100).move(200,200)
+
+var box3 = box1.merge(box2)
+```
+
+`returns`: `SVG.BBox`
+
+### tbox()
+
+`bbox()`返回的边框值中是不考虑任何变换的，`tbox()`方法会考虑，因此，任何平移或缩放都将应用于结果值以更接近的视觉表示
+
+
+PS: 对于`bbox`，下面这两个调用都是一样的
+
+```js
+var rect = draw.rect(100,100).move(50,50)
+var box1 = rect.bbox()
+```
+
+transform
+
+```js
+var rect = draw.rect(100,100).move(50,50)
+var box1 = rect.bbox()
+rect.transform({x:100,y:100})
+```
+
+对于使用`tbox`则会不一样
+PS:只有部分值会受到影响，并不是全部
+
+```js
+path.tbox()
+```
+
+这会返回一个`SVG.TBox`的实例，包含下列这些值
+
+* width (来自原生的`getBBox`，但是会受到矩阵中`scaleX`的影响)
+* height (来自原生的`getBBox`，但是会受到矩阵中`scaleY`的影响)
+* w (简写 `width`)
+* h (简写 `height`)
+* x (来自原生的`getBBox`，但是会受到矩阵中`x`的影响)
+* y (来自原生的`getBBox`，但是会受到矩阵中`y`的影响)
+* cx (中心点距离边界x方向的距离)
+* cy (中心点距离边界y方向的距离)
+* x2 (边界右下角的x距离)
+* y2 (边界右下角的y距离)
+
+请注意，元素的旋转并不会添加到计算当中
+
+`returns`: `SVG.TBox`
+
+### rbox()
+
+跟`bbox()`有点像，但是会考虑所有的变换，告诉你元素的确切位置。
+
+```js
+path.rbox()
+```
+
+这个会返回`SVG.RBox`的实例，包含下面这些值
+
+* width (真实的宽度)
+* height (真实的高度)
+* w (简写 `width`)
+* h (简写 `height`)
+* x (在x方向上的真实位置)
+* y (在y方向上的真是位置)
+* cx (中心在x方向上的真实位置)
+* cy (中心在y方向上的真实位置)
+* x2 (右下在x方向上的真实位置)
+* y2 (右下在y方向上的真实位置)
+
+重要：在Mozilla浏览器或者其他浏览器之中，可能会不能正常的识别出`stroke`的宽度。因为，在Mozilla浏览器或者其他浏览器生成的盒模型可能会不同。这是很难改变的，所以目前这算是一个不便，我们也没辙。
+
+`returns`: `SVG.RBox`
+
+### ctm()
+
+相对于最近的父级的视图返回元素当前的变换矩阵
+
+```js
+path.ctm()
+```
+
+`returns`: `SVG.Matrix`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

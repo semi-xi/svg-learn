@@ -1210,7 +1210,7 @@ SVG.Element = SVG.invent({
 })
 
 SVG.easing = {
-  '-': function(pos){return pos}
+  '-': function(pos){;return pos}
 , '<>':function(pos){return -Math.cos(pos * Math.PI) / 2 + 0.5}
 , '>': function(pos){return  Math.sin(pos * Math.PI / 2)}
 , '<': function(pos){return -Math.cos(pos * Math.PI / 2) + 1}
@@ -1300,7 +1300,6 @@ SVG.FX = SVG.invent({
         delay = o.delay
         o = o.duration
       }
-
       var situation = new SVG.Situation({
         duration: o || 1000,
         delay: delay || 0,

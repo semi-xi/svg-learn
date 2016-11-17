@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    window.rect = draw.rect(100, 100).move(50, 50);
+    // rect.animate({ ease: '<', delay: '1.5s' }).attr({ fill: '#f03' }).queue(function(){
+    //
+    //     this.target().fill('#000');
+    //     var _self = this;
+    //     setTimeout(function(){
+    //             _self.dequeue() // 不要忘记调用dequeue方法使得这个动画可以继续运行
+    //     },2000)
+    //
+    //
+    // }).animate().dmove(50,50)
+    rect.animate({
+        ease: '<',
+        delay: '1.5s'
+    }).attr({
+        fill: '#f03'
+    }).delay(500).animate().dmove(200, 250)
+    rect.mouseover(function() {
+        this.pause();
+    })
+    rect.mouseout(function() {
+        this.stop(false)
+    })
+</script>
+
+</html>

@@ -43,16 +43,34 @@
     // }).attr({
     //     fill: '#f03'
     // }).delay(500).animate().dmove(200, 250).loop(2,true);
-    rect.mouseover(function() {
-        this.pause();
-    })
-    rect.mouseout(function() {
-        this.stop(false)
-    })
-    // rect.animate().move(200, 200).loop(5,true);
-    rect.animate(3000).move(100, 100).reverse(false)
+    var position, from = 100,
+        to = 300
 
+    // rect.animate(3000).move(100, 100).during(function(pos, morph, eased, situation) {
+    //     position = from + (to - from) * pos;
+    //     console.log(position);
+    // })
+    console.log(2);
+    var ellipse = draw.ellipse(100, 100).attr('cx', '20%').fill('#333')
 
+    rect.animate(2000).move(100, 100)
+    .after(function(situation) {
+        console.log(situation);
+         ellipse.animate().attr({ fill: '#f06' })
+    })
+    .animate(3000).move(400,200)
+    // .during(function(pos, morph, eased, situation) {
+    //     console.log('pos: ' + pos);
+    //     console.log('eased: ' + eased);
+    //     // numeric values
+    //     ellipse.size(morph(300, 200), morph(200, 50))
+    //
+    //     // unit strings
+    //     ellipse.attr('cx', morph('40%', '80%'))
+    //
+    //     // hex color strings
+    //     ellipse.fill(morph('#333', '#ff0066'))
+    // })
 </script>
 
 </html>

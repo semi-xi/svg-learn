@@ -2258,33 +2258,532 @@ rect.mouseout(function() { this.play() })
 
 `returns`: `itself`
 
+### finish()
+
+这个方法会使得整个动画链完成，所以值都设置好为其相应的结束值，并满每种情况
+
+```js
+rect.animate().move(200, 200).animate().dmove(50,50).size(300,400)
+
+rect.finish() // rect at 250,250 with size 300,400
+```
+
+`returns`: `itself`
 
 
+### loop()
+
+默认情况下，`loop()`方法创建之后会一直循环
+
+```js
+rect.animate(3000).move(100, 100).loop()
+```
+
+但是循环也可以自定义循环次数
+
+```js
+rect.animate(3000).move(100, 100).loop(3)
+```
+
+循环是从开始到结束，然后重新开始(0->1;0>1;0->1)
+
+还有一个反向的设置，作为第2个参数传递即可
+
+```js
+rect.animate(3000).move(100, 100).loop(3, true)
+```
+
+循环是从开始到结束，然后从结束回到开始(0->1->0->1->0->1)
+
+PS: 补充说明几点，是在测试的时候发现的，但是好像文档里面并没有说明这个
+
+* 针对于有多个动画链的情况，`loop()`只会对第1个有效，如果`loop`没有说明循环次数，那么只会在第1个动画中无限循环。如果有循环次数，等循环次数结束之后，它才会进入到下一个动画链
+* 当存在超过1个的动画链的时候，如果设置loop的第2个参数是`true`，也就是设置了循环是会翻转，这样的话也是无效的，只会执行循环次数，执行完了循环次数就跳到下一个动画链
+* `loop()`当且仅当动画链只有一个的时候才能够得到符合的效果，其他的时候都会出现未知的情况
+
+`returns`: `SVG.FX`
+
+### reverse()
+
+切换动画的方向，或者把它设置为一个特定的方向
+
+```js
+// 从100，100 运动到原来的位置
+rect.animate(3000).move(100, 100).reverse()
+
+// 将方向设置为从后向前
+rect.animate(3000).move(100, 100).reverse(true)
+
+// 将方向设置为从前向后（跟没有设置reverse一样）
+rect.animate(3000).move(100, 100).reverse(false)
+```
+
+`returns`: `SVG.FX`
+
+### during/duringAll()
+
+如果要在一个/所有动画期间执行自己的操作，可以使用during（）/ duringAll（）方法
+
+```js
+var position
+  , from = 100
+  , to   = 300
+
+rect.animate(3000).move(100, 100).during(function(pos, morph, eased, situation) {
+  position = from + (to - from) * pos
+})
+
+// or
+rect.animate(3000).move(100, 100).duringAll(function(pos, morph, eased, situation) {
+  position = from + (to - from) * pos
+})
+```
+
+需要注意的是参数pos 在开始的时候是0，在结束的时候是1
+
+为了使事情更容易，变形函数`morph`作为第2个参数传递。此函数接受from和to作为第1个参数和第2个参数，他们可以是数字，单位或者十六进制
+
+```js
+var ellipse = draw.ellipse(100, 100).attr('cx', '20%').fill('#333')
+
+rect.animate(3000).move(100, 100).during(function(pos, morph, eased, situation) {
+  // numeric values
+  ellipse.size(morph(100, 200), morph(100, 50))
+
+  // unit strings
+  ellipse.attr('cx', morph('20%', '80%'))
+
+  // hex color strings
+  ellipse.fill(morph('#333', '#ff0066'))
+})
+```
+`eased`参数包含了缓动函数应用之后的位置(0->1)，最后一个参数是在调用过程中与当前情况有关的。你可以多次调用`during()`/`duringAll()`来添加更多应该执行的函数
 
 
+PS:在实际过程中的理解是这样的  
+`during()`只会发生在当次的`animate`执行时，如果存在2个`animate`，并且`during()`是紧跟在最后一个的话，那么只会等上一个`animate`执行完了之后才会执行，反之如果在第1个`animate`，则在第1个动画执行完之后就不再运动,如：
+
+```js
+var ellipse = draw.ellipse(100, 100).attr('cx', '20%').fill('#333')
+
+rect.animate().during().animate();//during跟第1个animate同时执行，执行完了之后停止了。
+rect.animate().animate().during(); //during先停止，等第1个动画执行完的时候，跟第2个动画同时开始
+
+```
+
+`duringAll`他会发生在整个动画链当中。当动画链中的动画执行时，它就会执行。动画链有多少，他就会执行多少次
+
+```js
+rect.animate().duringAll().animate();
+rect.animate().animate().duringAll();
+//以上均是执行两次
+```
+
+每执行1次的时候，`pos`跟`eased`参数都会重置从0开始1结束
+
+`returns`: `SVG.FX`
 
 
+### after/afterAll()
+
+此外，你还可以增加`after()`/`afterAll()`
+
+```js
+rect.animate(3000).move(100, 100).after(function(situation) {
+  this.animate().attr({ fill: '#f06' })
+})
+
+// or
+rect.animate(3000).move(100, 100).afterAll(function() {
+  this.animate().attr({ fill: '#f06' })
+})
+```
+
+该函数的第1个参数获取的是完成之后的情况。这并不适用于没有参数的`afterAll`。注意，如果动画是永久循环的话，`after()`/`afterAll()`方法将永远不会被调用。你可以多次调用`after()`/`afterAll()`来添加更多应该被执行的函数
+
+`returns`: `SVG.FX`
+
+### once
+
+最后你可以在特定的位置执行一次操作。只需要将执行的位置和函数传给`once`方法。你还可以决定传递的位置是对于时间或者是空间来计算的，默认是`false`
+
+```js
+//0.5 不作 easing 的值处理，空间上达到一半 ，或者不写
+rect.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
+  // do something
+}, false)
+```
+
+```js
+// 0.5作为 easeing 处理 时间上达到一半
+rect.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
+  // do something
+}, true)
 
 
+//当且仅当 easing 为 - ,也就是为linear的时候两者一样
+```
+
+回调函数获取当前eased或者非eased位置
+
+PS: 这里解释一下。  
+当设置了执行位置的时候，这里会出现2种情况
+- 这个执行的位置是对于easing函数来说的，如果是一个加速的运动的话，当空间上达到0.5的时候，它的时间必然是小于一半的
+- 这个执行的位置是对于空间位置来说的，如果是一个加速运动的话，当时间达到一半的时候，他的空间必然是超过一半
+
+如果运行的是下面的代码，
+
+```js
+rect.animate(10000,'>').move(100, 100).once(0.5, function(pos, eased) {
+     ellipse.animate().attr({ fill: '#f06' })
+     console.log(false);
+     console.log(pos);
+     console.log(eased);
+}, false)
+rect2.animate(10000,'>').move(100, 100).once(0.5, function(pos, eased) {
+     ellipse.animate().attr({ fill: '#f06' })
+     console.log(true);
+     console.log(pos);
+     console.log(eased);
+}, true)
+```
+
+因为`>`代表的是加速运动，这里必然是第2个的`true`先输出到控制台的， `pos`表示的是在时间上的位置，eased表示的是空间上的位置。如果还是有不懂的话请看下面的图就知道了
+
+![](./img/eased.png)
+
+### at()
+
+如果你想用外部事件控制动画的位置，那么`at()`方法将会非常有用
+
+```js
+var animation = draw.rect(100, 100).move(50, 50).animate('=').move(200, 200)
+
+document.onmousemove = function(event) {
+  animation.at(event.clientX / 1000)
+}
+```
+
+作为at()的第1个参数传递的值应该是0和1之间的数字，0是动画的开头，1是结束。注意，低于0和高于1的任何值都将取默认值。还要注意，调用函数后，改变的是easedg的位置。因此，这个位置是一个在时间上的位置而不是在空间上的位置。 详细的可以看上面的[onec中true或者false的说明](#onec "onec中true或者false的说明")
+
+此功能需要包含在默认分布中的`fx.js`模块
+
+PS: 按照官方给的demo，直接就是错的，首先`animate`是无法直接传`=`这样一个曲线函数进去的，会直接抛出` Uncaught TypeError: this.situation.ease is not a function(…)`错误，你可以选择`>`/`<`/`-`/`<>`或者自定义
+
+```js
+var animation = rect.animate({
+    duration:1000,
+    ease:'>'
+}).move(200, 200)
+console.log(animation);
+document.onmousemove = function(event) {
+    animation.at(event.clientX / 1000)
+}
+```
+
+PS: 这里的话如果animtion已经结束的话mouseover会直接报错duration不能被正常的阅读
 
 
+### target()
+
+`target`方法返回应用了动画的元素
+
+`getter` `returns`: `SVG.Element`
+
+### situation()
+
+动画的所有信息都保存在一个`situation`的对象里面
+
+```js
+rect.animate(3000).move(100, 100)
+rect.fx.situation //-> everything is in here
+```
+
+有效的值有这些：
+
+- start 以毫秒数表示的一个开始时间
+- play 是否正在执行，`true`或者`false`
+- pause 最后一次暂停的时间。PS：我在situation找不到这个参数，而且我找了源代码没有发现有`situation.pause=xxx`这种赋值，怀疑是以前的参数，但是删了没有改过来。
+- duration 持续时间
+- ease 缓动函数
+- finish 开始时间+持续时间
+- loop 当前的循环次数；如果是一个数字的话就是倒计时； 可以是`true`，`false`或者是数字
+- loops 如果是一个数字的话，它是总循环次数；可以是`true`，`false`或者是数字
+- reverse 动画是否向后执行
+- reversing 如果动画正在向后执行，则为`true` 否则为`false`
 
 
+PS: 当动画已经finish的时候，出来的是一个null的值
+
+```js
+setTimeout(function(){
+    console.log(rect.fx.situation);// -> null;
+},2000)
+```
+
+## Masking elements 蒙版
+
+### maskWith()
+
+一个元素最简单的使用蒙层的办法是这样：
+
+```js
+var ellipse = draw.ellipse(80, 40).move(10, 10).fill({ color: '#fff' })
+
+rect.maskWith(ellipse)
+
+```
+
+`returns`: `itself`
+
+### mask()
+
+当然也可以应用在多个元素
+
+```js
+var ellipse = draw.ellipse(80, 40).move(10, 10).fill({ color: '#fff' })
+var text = draw.text('SVG.JS').move(10, 10).font({ size: 36 }).fill({ color: '#fff' })
+
+var mask = draw.mask().add(text).add(ellipse)
+
+rect.maskWith(mask)
+
+```
+如果希望将`mask`对象以100％呈现，则需要将`mask`对象的填充颜色设置为白色。 但你可能还想使用渐变
+
+```js
+var gradient = draw.gradient('linear', function(stop) {
+  stop.at({ offset: 0, color: '#000' })
+  stop.at({ offset: 1, color: '#fff' })
+})
+
+var ellipse = draw.ellipse(80, 40).move(10, 10).fill({ color: gradient })
+
+rect.maskWith(ellipse)
+```
+
+`returns`: `SVG.Mask`
+
+### unmask()
+
+使用`unmask()`方法可以解除遮罩元素
+
+```js
+rect.unmask()
+```
+
+`unmask()`返回的是使用了遮罩的元素
+
+`returns`: `itself`
+
+### remove()
+
+完全移除遮罩跟所有有遮罩的元素执行`unmask()`是一样的
+
+```js
+mask.remove();
+```
+
+`returns`: `itself`
+
+### masker
+
+为了方便起见， 遮罩的元素会依赖于遮罩节点。这在你想改变`mask`的时候会很有用
+
+```js
+rect.masker.fill('#fff')
+```
+
+这个功能如需要引入`mask.js`模块
+
+PS:可以直接通过这个方法改变你想要的masker
 
 
+## Clipping elements 裁剪
+
+`Clipping`元素的工作原理跟`masking`元素完全相同，唯一的区别是`Clipping`元素将采取`Clipping`元素的形状。因此，事件只有在进入`Clipping`元素才触发，对于`mask`来说,`mask`可以触发事件。另一个区别是，`mask`可以填充不透明度的颜色，而`clipPath`不能
+
+源文：  
+`Clipping elements works exactly the same as masking elements. The only difference is that clipped elements will adopt the geometry of the clipping element. Therefore events are only triggered when entering the clipping element whereas with masks the masked element triggers the event. Another difference is that masks can define opacity with their fill color and clipPaths don't.`
+
+PS ：第1个区别还不懂，暂时留着先
 
 
+### clipWith()
+
+```js
+var ellipse = draw.ellipse(80, 40).move(10, 10)
+
+rect.clipWith(ellipse)
+```
+
+`returns`: `itself`
+
+### clip()
+
+裁剪多个元素
+
+```js
+var ellipse = draw.ellipse(80, 40).move(10, 10)
+var text = draw.text('SVG.JS').move(10, 10).font({ size: 36 })
+
+var clip = draw.clip().add(text).add(ellipse)
+
+rect.clipWith(clip)
+```
+
+### unclip()
+
+取消元素的裁剪状态
+
+```js
+rect.unclip()
+```
+
+`returns`: `itself`
 
 
+### remove()
 
+取消所有的裁剪，跟所有元素执行`unclip()`是一样的
 
+```js
+clip.remove()
+```
 
+`returns`: `itself`
 
+### clipper()
 
+为了方便起见， 裁剪的元素会依赖于裁剪节点。这在你想改变`clipPath`的时候会很有用
 
+```js
+rect.clipper.move(10, 10)
+```
 
+这个功能如需要引入`clip.js`模块
 
+## Arranging elements
 
+你可以使用一下方法在父svg文档中排列元素
 
+PS: 只是在html结构上调整，在视觉上不一定体现出来，例如：
+
+```js
+window.rect = draw.rect(100, 100).fill('red').move(20, 20);
+window.rect2 = draw.rect(100, 100).fill('blue').move(20, 120);
+rect.front()
+```
+
+html 结构会按照顺序执行，先加入`rect`再加入`rect2`，这时候执行`fron()`，但是在视觉上并没有变化，但是在结构上是有变化的。
+
+### front()
+
+把元素移动到最前面 (结构上是向下移动)
+
+```js
+rect.front()
+```
+
+`returns`: `itself`
+
+### back()
+
+把元素移动到最后面（结构上是向上移动）
+
+```js
+rect.back()
+```
+
+`returns`: `itself`
+
+### forward()
+
+把元素向前移动一次(结构上是向下移动)
+
+```js
+rect.forward()
+```
+
+`returns`: `itself`
+
+### backward()
+
+把元素向后移动一次（结构上是向上移动）
+
+```js
+rect.backward()
+```
+
+`returns`: `itself`
+
+### siblings()
+
+`arrange.js`模块带来了很多额外的方法。获取某个元素的所有兄弟元素，也包括这个元素本身
+
+```js
+rect.siblings()
+```
+
+`returns`: `array`
+
+### position()
+
+获取相对于父级来说，在子级中的位置
+
+```js
+var rect = draw.rect(100, 100).fill('red').move(20, 20);
+var rect2 = draw.rect(100, 100).fill('blue').move(20, 120);
+var rect3 = draw.rect(100, 100).fill('yellow').move(20, 220);
+rect.position()  //-> 1
+rect2.position() // ->2
+```
+
+`returns`: `number`
+
+### next()
+
+获取元素的下一个兄弟元素，如果没有则返回`underfined`
+
+```js
+rect.next()
+```
+
+`returns`: `element`
+
+### previous()
+
+获取元素的上一个兄弟元素
+PS: 包括`defs`
+
+```js
+rect.previous()
+```
+
+`returns`: `element`
+
+### before()
+
+把元素插入到另外一个元素前面
+
+```js
+// 把circle插入到rect前面
+rect.before(circle)
+```
+
+`returns`: `itself`
+
+### after()
+
+把元素插入到另外一个元素后面
+
+```js
+// 把circle插入到rect后面
+rect.after(circle)
+```
+
+`returns`: `itself`
+
+这个功能如需要引入`arrange.js`模块
 
 2

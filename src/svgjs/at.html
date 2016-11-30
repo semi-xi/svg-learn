@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var rect = draw.rect(100, 100)
+    window.animation = rect.animate({
+        duration:1000,
+        ease:'>'
+    }).move(100, 100);
+    animation.at(.5);
+    animation.pause();
+    document.onmousemove = function(event) {
+        console.log(animation.situation);
+        animation.at(event.clientX / 1000)
+    }
+
+    // console.log(rect.fx.target() )// returns rect
+    setTimeout(function(){
+        console.log(animation.situation);
+    },1000)
+</script>
+
+</html>

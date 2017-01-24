@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    // create some elements
+    var rect = draw.rect(100, 100)
+    var circle = draw.circle(100).move(100, 100).fill('#f09')
+
+    // create a set and add the elements
+    var set = draw.set()
+    console.log(set.add(rect).add(circle));
+
+    // change the fill of all elements in the set at once
+    // set.animate().cx(100);
+
+    console.log(set.bbox());
+</script>
+
+</html>

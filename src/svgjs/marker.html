@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var path = draw.path('M 100 200 C 200 100 300  0 400 100 C 500 200 600 300 700 200 C 800 100 900 100 900 100z')
+
+    path.fill('none').stroke({
+        width: 1
+    })
+
+    var m2 = path.marker('start', 10, 10, function(add) {
+        add.circle(10).fill('#f06')
+    })
+    console.log(m2);
+    // path.marker('mid', 10, 10, function(add) {
+    //     add.rect(10, 10)
+    // })
+    path.marker('end', 20, 20, function(add) {
+        add.circle(6).center(4, 5)
+        add.circle(6).center(4, 15)
+        add.circle(6).center(16, 10)
+
+        this.fill('#0f6')
+    })
+
+    var marker = draw.marker(20, 20, function(add) {
+        add.rect(10, 10)
+    })
+    console.log(marker);
+    path.marker('mid', marker)
+    setTimeout(() => {
+        marker.update(function(add) {
+            add.circle(20).fill('#f00')
+        })
+    }, 2000)
+</script>
+
+</html>

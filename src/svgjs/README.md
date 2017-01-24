@@ -2786,4 +2786,432 @@ rect.after(circle)
 
 这个功能如需要引入`arrange.js`模块
 
-2
+
+## Sets
+
+如果需要同时修改或者动画化多个元素`Sets`是非常有用的。一个`set`将接受单个元素上可访问的所有相同的方法，即使你用自己的插件添加的方法！创建`set`正式你所期望的
+
+```js
+// 创建一些元素
+var rect = draw.rect(100,100)
+var circle = draw.circle(100).move(100,100).fill('#f09')
+
+// 创建set并且把元素都增加进去
+var set = draw.set()
+set.add(rect).add(circle)
+
+// 改变他们的fill
+set.fill('#ff0');
+
+//写个动画
+set.animate().cx(100);
+```
+
+单个元素可以是很多`set`的成员。`set`也没用结构表示，实际上它们只是抽象的数组。
+
+### add()
+
+增加一个元素到`set`
+
+```js
+var set = draw.set();
+set.add(rect);
+```
+
+`set`很有用的一个特征是可以一次接受多个元素
+
+```js
+set.add(rect, circle)
+```
+
+`returns`: `itself`
+
+### each()
+
+`set`集合中的堆叠的元素跟在svg里面的元素是一样的
+
+```js
+set.each(function(i) {
+  this.attr('id', 'shiny_new_id_' + i)
+})
+```
+
+注意，`this`指向的是当前的元素
+
+`returns`: `itself`
+
+### has()
+
+判断一个元素节点是否在`set`里面
+
+```js
+set.has(rect)
+```
+
+`returns`: `boolean`
+
+### index()
+
+返回元素在`set`的索引值
+
+```js
+set.index(rect) //-> -1 找不到就返回-1
+```
+
+### get()
+
+获取在`set`中给定索引值的元素
+
+```js
+set.get(1);
+```
+
+`returns`: `element`
+
+### first()
+
+获取`set`的第一个元素
+
+```js
+set.first();
+```
+`returns`: `element`
+
+### last()
+
+获取`set`的最后一个元素
+
+```js
+set.last()
+```
+
+`returns`: `element`
+
+### bbox()
+
+获取`set`的盒子模型
+PS：它的盒子模型又里面所包含的所有元素决定
+
+```js
+var rect = draw.rect(100, 100)
+var circle = draw.circle(100).move(100, 100).fill('#f09')
+var set = draw.set()
+set.bbox()
+```
+
+`returns`: `SVG.BBox`
+
+### remove()
+
+移除在`set`的一个元素
+
+```js
+set.remove(rect)
+```
+
+`returns`: `itself`
+
+### clear()
+
+移除所有的在`set`的元素
+
+```js
+set.clear()
+```
+
+`returns`: `itself`
+
+### animate()
+
+`sets` 使用动画
+
+```js
+set.animate(3000).fill('#ff0')
+```
+
+`returns`: `SVG.SetFX`
+
+## Gradient 渐变
+
+### gradient()
+
+包含 `linear`跟`radial` 渐变，`linear`渐变可以这样设置
+
+```js
+var gradient = draw.gradient('linear', function(stop) {
+  stop.at(0, '#333')
+  stop.at(1, '#fff')
+})
+```
+
+`returns`: `SVG.Gradient`
+
+### at()
+`offset`跟`color`对于stop来说是必须的，`opacity`是可选的。`offset`在`0`和`1`之间浮动，或者是一个百分比值(例如:33%)
+
+```js
+stop.at(0, '#333')
+```
+或者
+
+```js
+stop.at({ offset: 0, color: '#333', opacity: 1 })
+```
+
+`returns`: `itself`
+
+### from()
+
+定义方向，你可以设置from `x`,`y`和to `x`,`y`
+
+```js
+gradient.from(0, 0).to(0, 1)
+```
+
+### to()
+
+定义方向，你可以设置from `x`,`y`和to `x`,`y`
+
+```js
+gradient.from(0, 0).to(0, 1)
+```
+
+### radius()
+
+Radial 渐变有一个`radius()`的方法去定义内部颜色在外部半径的一个过渡点
+PS：.2就代表在半径的0.2开始过渡
+
+```js
+var gradient = draw.gradient('radial', function(stop) {
+  stop.at(0, '#333')
+  stop.at(1, '#fff')
+})
+
+gradient.from(0.5, 0.5).to(0.5, 0.5).radius(0.5)
+```
+
+`returns`: `itself`
+
+### update()
+
+在之后也可以更新渐变
+
+```js
+gradient.update(function(stop) {
+  stop.at(0.1, '#333', 0.2)
+  stop.at(0.9, '#f03', 1)
+})
+
+```
+
+甚至是单个stop也可以更新
+
+```js
+var s1, s2, s3
+
+draw.gradient('radial', function(stop) {
+  s1 = stop.at(0, '#000')
+  s2 = stop.at(0.5, '#f03')
+  s3 = stop.at(1, '#066')
+})
+
+s1.update(0.1, '#0f0', 1)
+```
+
+`returns`: `itself`
+
+### get()
+
+`get()`方法使得容易从现有的渐变中提取到`stop`
+
+```js
+var gradient = draw.gradient('radial', function(stop) {
+  stop.at({ offset: 0, color: '#000', opacity: 1 })   // -> first
+  stop.at({ offset: 0.5, color: '#f03', opacity: 1 }) // -> second
+  stop.at({ offset: 1, color: '#066', opacity: 1 })   // -> third
+})
+
+var s1 = gradient.get(0) // -> returns "first" stop
+```
+
+`returns`: `SVG.Stop`
+
+### fill()
+
+最后，把`gradient`用在一个元素上
+
+```js
+rect.attr({ fill: gradient })
+```
+
+或者
+
+```js
+rect.fill(gradient)
+```
+
+元素通过fill方法引用`gradient`，`fill（）`方法将可以被调用：
+
+```js
+gradient.fill() //-> returns 'url(#SvgjsGradient1234)'
+```
+
+PS: 大概是找到这个`gradient`的实例
+
+W3Schools 有一个很好的例子让你知道linear gradients 和radial gradients是怎么工作的
+
+`returns`: `string`
+
+这个功能需要引入默认分发中的`gradients.js`模块
+
+
+## Pattern 图案
+
+### pattern()
+
+创建一个`pattern`跟创建一个`gradient`是相似的
+
+```js
+var pattern = draw.pattern(20, 20, function(add) {
+  add.rect(20,20).fill('#f06')
+  add.rect(10,10)
+  add.rect(10,10).move(10,10)
+})
+```
+
+这将创建一个20×20像素的方格图案。 您可以向模式中添加任何可用的元素。
+
+`returns`: `SVG.Pattern`
+
+### update()
+
+`pattern`也可以在之后被更新
+
+```js
+pattern.update(function(add) {
+  add.circle(15).center(10,10)
+})
+```
+
+`returns`: `itself`
+
+### fill()
+
+最后，把`pattern`用在元素上
+
+```js
+rect.attr({ fill: pattern })
+```
+
+or
+
+```js
+rect.fill(pattern)
+```
+
+元素通过fill方法去引用`pattern`实例，`fill()`方法将可以被调用
+
+```js
+pattern.fill() //-> returns 'url(#SvgjsPattern1234)'
+```
+
+`returns`: `string`
+
+## Marker 标记
+
+### marker()
+
+标记可以添加`line`、`polyline`、`polygon`、和`path`的每个单独点。有三种类型的标记`start`、`mid`、`end`，其中`start`表示第一个点，`end`代表结束点，`mid`代表转折点。
+PS:`mid`只会出现在有转折的地方，例如`polyline`、`path`、`polygon`
+
+
+```js
+var path = draw.path('M 100 200 C 200 100 300  0 400 100 C 500 200 600 300 700 200 C 800 100 900 100 900 100z')
+
+path.fill('none').stroke({
+    width: 1
+})
+
+path.marker('start', 10, 10, function(add) {
+    add.circle(10).fill('#f06')
+})
+path.marker('mid', 10, 10, function(add) {
+    add.rect(10, 10)
+})
+path.marker('end', 20, 20, function(add) {
+    add.circle(6).center(4, 5)
+    add.circle(6).center(4, 15)
+    add.circle(6).center(16, 10)
+
+    this.fill('#0f6')
+})
+```
+
+`marker（）`方法有三种方式使用。 首先，可以在任何容器元素（例如svg，nested，group，...）上创建标记。 如果你计划重用标记多次，那么在defs中创建一个标记，但不显示它是很有必要的：
+
+
+```js
+var marker = draw.marker(10, 10, function(add) {
+  add.rect(10, 10)
+})
+```
+
+其次，一个`marker`可以被创建并且马上应用于一个一个目标元素
+
+```js
+path.marker('start', 10, 10, function(add) {
+  add.circle(10).fill('#f06')
+})
+```
+
+这将会在`defs`中创建一个`marker`，并立即应用它。需要注意的是，第一个参数定义的是`marker`的位置。并且一共有4个参数，而不是第1个示例中的三个。
+
+最后，如果创建了一个`marker`用于容器元素上重复使用，则可以将其直接应用于目标元素。
+
+```js
+path.marker('mid', marker)
+```
+
+最后，从目标元素引用获取一个`marker`实例
+
+```js
+path.reference('marker-end')
+```
+
+### ref()
+
+默认的`refX`和`refY`属性值分别是`width`和`height`的一半。你可以定义不同的`refX`和`refY`
+
+```js
+marker.ref(2, 7)
+```
+
+`returns`: `itself`
+
+### update()
+
+更新`marker`的内容将`clear()`清楚现有的内容，并且通过第一个参数传递的定义去更新内容
+
+```js
+marker.update(function(add) {
+  add.circle(10)
+})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11

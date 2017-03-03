@@ -3190,26 +3190,141 @@ marker.ref(2, 7)
 
 ### update()
 
-更新`marker`的内容将`clear()`清楚现有的内容，并且通过第一个参数传递的定义去更新内容
+更新`marker`的内容将`clear()`清除现有的内容，并且通过第一个参数传递的定义去更新内容
 
 ```js
+//draw clear
 marker.update(function(add) {
   add.circle(10)
 })
 ```
 
+### width()
+
+定义`markerWidth`的属性
+
+```js
+marker.width(10)
+```
+
+`returns`: `itself`
+
+### height()
+
+定义`markerHeight`的属性
+
+```js
+marker.height(10)
+```
+
+`returns`: `itself`
+
+### size()
+
+定义`markerWidth`和`markerHeight`属性
+
+```js
+marker.size(10, 10)
+```
+
+`returns`: `itself`
 
 
+## Data()
 
+### Settings 设置
 
+`data()`方法允许你在SVG元素上绑定任意的对象，字符串或者数值
 
+```js
+rect.data('key', { value: { data: 0.3 }})
+```
 
+或者是一次绑定多个值
 
+```js
+rect.data({
+  forbidden: 'fruit'
+, multiple: {
+    values: 'in'
+  , an: 'object'
+  }
+})
+```
 
+`returns`: `itself`
 
+### Getting 获取
 
+获取值的方法跟`attr()`是很相似的
 
+```js
+rect.data('key')
+```
 
+`returns`: `itself`
+
+### Removing
+
+移除所有的数据
+
+```js
+rect.data('key', null)
+```
+
+`returns`: `itself`
+
+### Sustaining data types 维护数据类型
+
+你的值将始终以JSON格式存储，在某些情况下，这可能不可取。 如果你想存储的值是原样，只是传递true作为第三个参数：
+
+```js
+rect.data('key', 'value', true)
+```
+`returns`: `itself`
+
+## Memory 储存
+
+### remember() 储存
+
+储存数据非常类似于设置属性
+
+```js
+rect.remember('oldBBox', rect.bbox())
+```
+
+多组数据也能一次性储存起来
+
+```js
+rect.remember({
+  oldFill:    rect.attr('fill')
+, oldStroke:  rect.attr('stroke')
+})
+```
+
+`returns`: `itself`
+
+### forget() 擦除
+
+擦除单个数据
+
+```js
+rect.forget('oldBBox')
+```
+
+或者一次性擦除多个数据
+
+```js
+rect.forget('oldFill', 'oldStroke')
+```
+
+或者你可以直接擦除整个数据储存
+
+```js
+rect.forget()
+```
+
+`returns`: `itself`
 
 
 

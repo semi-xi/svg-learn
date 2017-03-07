@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var number = new SVG.Number('78%');
+    console.log(number.plus('3%').toString());
+    console.log(number.minus('3%').valueOf());
+    console.log(number.times('3%').to('px'));
+    console.log(number.divide('3%'))
+    var number3 = number.morph('2%');
+    console.log(number3);
+    console.log(number3.at(.1));
+    var number2 = new SVG.Number('78s');
+    console.log(number2.plus('3s').toString());
+    console.log(number2.minus('3s').valueOf());
+    console.log(number2.times('3s'));
+    console.log(number2.divide('3s'));
+</script>
+
+</html>

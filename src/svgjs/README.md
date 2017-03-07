@@ -1,5 +1,8 @@
 # SVG.js 中文说明
 
+[toc]
+
+
 ## 说明
 
 网上好像没有相关的中文文档，这样的话我就自己写一个了，按照官方那边的来写
@@ -3302,6 +3305,12 @@ rect.remember({
 })
 ```
 
+获取检索一个储存
+
+```js
+rect.remember('oldBBox')
+```
+
 `returns`: `itself`
 
 ### forget() 擦除
@@ -3325,6 +3334,230 @@ rect.forget()
 ```
 
 `returns`: `itself`
+
+## Event 事件
+
+### Basic events基础事件
+
+事件可以像如下这样绑定到元素上
+
+```js
+rect.click(function() {
+  this.fill({ color: '#f06' })
+})
+```
+
+移除这个事件也是很轻松的
+
+```js
+rect.click(null)
+```
+
+所有有效的事件包括： `click`,`dbclick`,`mousedown`,`mouseup`,`mouseover`,`mouseout`,`mousemove`,`touchstart`,`touchmove`,`touchleave`,`touchend`,`touchcancel`
+
+`returns`: `itself`
+
+### Event listeners 事件监听
+
+你也可以给元素绑定事件监听
+
+```js
+var click = function() {
+  this.fill({ color: '#f06' })
+}
+
+rect.on('click', click)
+```
+
+需要注意的是，回调中`this`的上下文指向的是绑定的元素。你也在绑定的时候用自己的对象来改变上下文.
+
+```js
+rect.on('click', click, window) // this的上下文指向的是window
+```
+
+`returns`: `itself`
+
+解除绑定事件也是很简单的
+
+```js
+rect.off('click', click)
+```
+
+或者是解除绑定事件的所有监听
+
+```js
+rect.off('click')
+```
+
+或者是解除所有的事件绑定
+
+```js
+rect.off()
+```
+
+`returns`: `itself`
+
+还有其他更多的事件绑定形式，你也可以在html元素上绑定事件：
+
+```js
+SVG.on(window, 'click', click)
+```
+
+显然实际上也可以解除绑定
+
+```js
+SVG.off(window, 'click', click)
+```
+
+### Custom events 自定义事件
+
+你甚至可以用自定义事件
+只需要增加一个事件监听到你的事件当中
+
+```js
+rect.on('myevent', function() {
+  alert('ta-da!')
+})
+```
+
+现在你已经可以在你需要的时候去触发这个事件
+
+```js
+function whenSomethingHappens() {
+  rect.fire('myevent')
+}
+
+// 或者你想传入一个事件对象
+function whenSomethingHappens(event) {
+  rect.fire(event)
+}
+```
+
+你也可以传一个数据对象给这个事件
+
+```js
+function whenSomethingHappens() {
+  rect.fire('myevent', {some:'data'})
+}
+
+rect.on('myevent', function(e) {
+  alert(e.detail.some) // outputs 'data'
+})
+```
+
+svg.js支持`event.namespace`形式的命名空间事件
+一个命名空间事件在行为上跟普通的事件是一样的，不同的是你可以删除它而不触及其他的命名空间的正常事件处理程序
+
+```js
+//绑定
+rect.on('myevent.namespace', function(e) {
+  // do something
+})
+
+// 解除myevent的namespace绑定
+rect.off('myevent.namespace')
+
+// 解除namespace的所有事件绑定
+rect.off('.namespace')
+
+// 解除包括namespace在内的所有事件绑定
+rect.off('myevent')
+```
+
+但是，你不能触发特定的命名空间事件。调用`rect.fire('myevent.namespace')`将不会做任何事情，而`rect.fire('myevent')`会执行并触发事件的所有附加事件
+
+重要：始终确保你的事件命名空间，以避免冲突。最好使用非常具体化的东西。例如`event.wicked`会比`event.svg`更加好
+
+## Number
+
+SVG.js中的数值有一个专用的数值类，能够处理字符串值。 创建新数值很简单：
+
+```js
+var number = new SVG.Number('78%')
+number.plus('3%').toString() //-> returns '81%'
+number.valueOf() //-> returns 0.81
+
+```
+
+算数运算是定义在`SVG.Number`上的一个实例方法
+
+### plus()
+
+加法：
+
+```js
+number.plus('3%')
+```
+
+`returns`: `SVG.Number`
+
+### minus()
+
+减法：
+
+```js
+number.minus('3%')
+```
+
+`returns`: `SVG.Number`
+
+### times()
+
+乘法：
+
+```js
+number.times(2)
+```
+
+`returns`: `SVG.Number`
+
+### divide()
+
+除法：
+
+```js
+number.divide('3%')
+```
+
+`returns`: `SVG.Number`
+
+### to()
+
+转变单位：
+
+```js
+number.to('px')
+```
+
+`returns`: `SVG.Number`
+
+### morph()
+
+设置一个改变数值
+PS：要集合at使用
+
+```js
+number.morph('11%')
+```
+
+`returns`: `SVG.Number`
+
+### at()
+
+在一个给定的位置获取改变数值
+
+PS：查看源码，运算如下
+(morph值-number的value值) * at值 - number的value值
+暂时不是很知道用处在哪里
+
+```js
+var number = new SVG.Number('79%').morph('3%')
+number.at(0.55).toString() //-> '37.2%'
+```
+
+`returns`: `SVG.Number`
+
+## Color 颜色
 
 
 

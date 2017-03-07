@@ -2,7 +2,6 @@
 
 [toc]
 
-
 ## 说明
 
 网上好像没有相关的中文文档，这样的话我就自己写一个了，按照官方那边的来写
@@ -2253,9 +2252,9 @@ rect.mouseout(function() { this.play() })
 ### stop()
 
 如果你只是想停止动画，你可以调用`stop()`方法，他有2个可选的参数
-* jumoToEnd : `boolean` 是否跳到结束位置
-* clearQueue :  `boolean` 是否清除所有的队列
 
+- jumoToEnd : `boolean` 是否跳到结束位置
+- clearQueue : `boolean` 是否清除所有的队列
 
 停止动画是不可逆的，一旦停止了，就无法开始。
 
@@ -2265,7 +2264,7 @@ rect.mouseout(function() { this.play() })
 
 这个方法会使得整个动画链完成，所以值都设置好为其相应的结束值，并满每种情况
 
-```js
+```javascript
 rect.animate().move(200, 200).animate().dmove(50,50).size(300,400)
 
 rect.finish() // rect at 250,250 with size 300,400
@@ -2273,18 +2272,17 @@ rect.finish() // rect at 250,250 with size 300,400
 
 `returns`: `itself`
 
-
 ### loop()
 
 默认情况下，`loop()`方法创建之后会一直循环
 
-```js
+```javascript
 rect.animate(3000).move(100, 100).loop()
 ```
 
 但是循环也可以自定义循环次数
 
-```js
+```javascript
 rect.animate(3000).move(100, 100).loop(3)
 ```
 
@@ -2292,7 +2290,7 @@ rect.animate(3000).move(100, 100).loop(3)
 
 还有一个反向的设置，作为第2个参数传递即可
 
-```js
+```javascript
 rect.animate(3000).move(100, 100).loop(3, true)
 ```
 
@@ -2300,9 +2298,9 @@ rect.animate(3000).move(100, 100).loop(3, true)
 
 PS: 补充说明几点，是在测试的时候发现的，但是好像文档里面并没有说明这个
 
-* 针对于有多个动画链的情况，`loop()`只会对第1个有效，如果`loop`没有说明循环次数，那么只会在第1个动画中无限循环。如果有循环次数，等循环次数结束之后，它才会进入到下一个动画链
-* 当存在超过1个的动画链的时候，如果设置loop的第2个参数是`true`，也就是设置了循环是会翻转，这样的话也是无效的，只会执行循环次数，执行完了循环次数就跳到下一个动画链
-* `loop()`当且仅当动画链只有一个的时候才能够得到符合的效果，其他的时候都会出现未知的情况
+- 针对于有多个动画链的情况，`loop()`只会对第1个有效，如果`loop`没有说明循环次数，那么只会在第1个动画中无限循环。如果有循环次数，等循环次数结束之后，它才会进入到下一个动画链
+- 当存在超过1个的动画链的时候，如果设置loop的第2个参数是`true`，也就是设置了循环是会翻转，这样的话也是无效的，只会执行循环次数，执行完了循环次数就跳到下一个动画链
+- `loop()`当且仅当动画链只有一个的时候才能够得到符合的效果，其他的时候都会出现未知的情况
 
 `returns`: `SVG.FX`
 
@@ -2310,7 +2308,7 @@ PS: 补充说明几点，是在测试的时候发现的，但是好像文档里�
 
 切换动画的方向，或者把它设置为一个特定的方向
 
-```js
+```javascript
 // 从100，100 运动到原来的位置
 rect.animate(3000).move(100, 100).reverse()
 
@@ -2327,7 +2325,7 @@ rect.animate(3000).move(100, 100).reverse(false)
 
 如果要在一个/所有动画期间执行自己的操作，可以使用during（）/ duringAll（）方法
 
-```js
+```javascript
 var position
   , from = 100
   , to   = 300
@@ -2346,7 +2344,7 @@ rect.animate(3000).move(100, 100).duringAll(function(pos, morph, eased, situatio
 
 为了使事情更容易，变形函数`morph`作为第2个参数传递。此函数接受from和to作为第1个参数和第2个参数，他们可以是数字，单位或者十六进制
 
-```js
+```javascript
 var ellipse = draw.ellipse(100, 100).attr('cx', '20%').fill('#333')
 
 rect.animate(3000).move(100, 100).during(function(pos, morph, eased, situation) {
@@ -2360,23 +2358,22 @@ rect.animate(3000).move(100, 100).during(function(pos, morph, eased, situation) 
   ellipse.fill(morph('#333', '#ff0066'))
 })
 ```
+
 `eased`参数包含了缓动函数应用之后的位置(0->1)，最后一个参数是在调用过程中与当前情况有关的。你可以多次调用`during()`/`duringAll()`来添加更多应该执行的函数
 
-
-PS:在实际过程中的理解是这样的  
+PS:在实际过程中的理解是这样的<br>
 `during()`只会发生在当次的`animate`执行时，如果存在2个`animate`，并且`during()`是紧跟在最后一个的话，那么只会等上一个`animate`执行完了之后才会执行，反之如果在第1个`animate`，则在第1个动画执行完之后就不再运动,如：
 
-```js
+```javascript
 var ellipse = draw.ellipse(100, 100).attr('cx', '20%').fill('#333')
 
 rect.animate().during().animate();//during跟第1个animate同时执行，执行完了之后停止了。
 rect.animate().animate().during(); //during先停止，等第1个动画执行完的时候，跟第2个动画同时开始
-
 ```
 
 `duringAll`他会发生在整个动画链当中。当动画链中的动画执行时，它就会执行。动画链有多少，他就会执行多少次
 
-```js
+```javascript
 rect.animate().duringAll().animate();
 rect.animate().animate().duringAll();
 //以上均是执行两次
@@ -2386,12 +2383,11 @@ rect.animate().animate().duringAll();
 
 `returns`: `SVG.FX`
 
-
 ### after/afterAll()
 
 此外，你还可以增加`after()`/`afterAll()`
 
-```js
+```javascript
 rect.animate(3000).move(100, 100).after(function(situation) {
   this.animate().attr({ fill: '#f06' })
 })
@@ -2410,14 +2406,14 @@ rect.animate(3000).move(100, 100).afterAll(function() {
 
 最后你可以在特定的位置执行一次操作。只需要将执行的位置和函数传给`once`方法。你还可以决定传递的位置是对于时间或者是空间来计算的，默认是`false`
 
-```js
+```javascript
 //0.5 不作 easing 的值处理，空间上达到一半 ，或者不写
 rect.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
   // do something
 }, false)
 ```
 
-```js
+```javascript
 // 0.5作为 easeing 处理 时间上达到一半
 rect.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
   // do something
@@ -2429,14 +2425,15 @@ rect.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
 
 回调函数获取当前eased或者非eased位置
 
-PS: 这里解释一下。  
+PS: 这里解释一下。<br>
 当设置了执行位置的时候，这里会出现2种情况
+
 - 这个执行的位置是对于easing函数来说的，如果是一个加速的运动的话，当空间上达到0.5的时候，它的时间必然是小于一半的
 - 这个执行的位置是对于空间位置来说的，如果是一个加速运动的话，当时间达到一半的时候，他的空间必然是超过一半
 
 如果运行的是下面的代码，
 
-```js
+```javascript
 rect.animate(10000,'>').move(100, 100).once(0.5, function(pos, eased) {
      ellipse.animate().attr({ fill: '#f06' })
      console.log(false);
@@ -2459,7 +2456,7 @@ rect2.animate(10000,'>').move(100, 100).once(0.5, function(pos, eased) {
 
 如果你想用外部事件控制动画的位置，那么`at()`方法将会非常有用
 
-```js
+```javascript
 var animation = draw.rect(100, 100).move(50, 50).animate('=').move(200, 200)
 
 document.onmousemove = function(event) {
@@ -2471,9 +2468,9 @@ document.onmousemove = function(event) {
 
 此功能需要包含在默认分布中的`fx.js`模块
 
-PS: 按照官方给的demo，直接就是错的，首先`animate`是无法直接传`=`这样一个曲线函数进去的，会直接抛出` Uncaught TypeError: this.situation.ease is not a function(…)`错误，你可以选择`>`/`<`/`-`/`<>`或者自定义
+PS: 按照官方给的demo，直接就是错的，首先`animate`是无法直接传`=`这样一个曲线函数进去的，会直接抛出`Uncaught TypeError: this.situation.ease is not a function(…)`错误，你可以选择`>`/`<`/`-`/`<>`或者自定义
 
-```js
+```javascript
 var animation = rect.animate({
     duration:1000,
     ease:'>'
@@ -2486,7 +2483,6 @@ document.onmousemove = function(event) {
 
 PS: 这里的话如果animtion已经结束的话mouseover会直接报错duration不能被正常的阅读
 
-
 ### target()
 
 `target`方法返回应用了动画的元素
@@ -2497,7 +2493,7 @@ PS: 这里的话如果animtion已经结束的话mouseover会直接报错duration
 
 动画的所有信息都保存在一个`situation`的对象里面
 
-```js
+```javascript
 rect.animate(3000).move(100, 100)
 rect.fx.situation //-> everything is in here
 ```
@@ -2515,10 +2511,9 @@ rect.fx.situation //-> everything is in here
 - reverse 动画是否向后执行
 - reversing 如果动画正在向后执行，则为`true` 否则为`false`
 
-
 PS: 当动画已经finish的时候，出来的是一个null的值
 
-```js
+```javascript
 setTimeout(function(){
     console.log(rect.fx.situation);// -> null;
 },2000)
@@ -2530,11 +2525,10 @@ setTimeout(function(){
 
 一个元素最简单的使用蒙层的办法是这样：
 
-```js
+```javascript
 var ellipse = draw.ellipse(80, 40).move(10, 10).fill({ color: '#fff' })
 
 rect.maskWith(ellipse)
-
 ```
 
 `returns`: `itself`
@@ -2543,18 +2537,18 @@ rect.maskWith(ellipse)
 
 当然也可以应用在多个元素
 
-```js
+```javascript
 var ellipse = draw.ellipse(80, 40).move(10, 10).fill({ color: '#fff' })
 var text = draw.text('SVG.JS').move(10, 10).font({ size: 36 }).fill({ color: '#fff' })
 
 var mask = draw.mask().add(text).add(ellipse)
 
 rect.maskWith(mask)
-
 ```
+
 如果希望将`mask`对象以100％呈现，则需要将`mask`对象的填充颜色设置为白色。 但你可能还想使用渐变
 
-```js
+```javascript
 var gradient = draw.gradient('linear', function(stop) {
   stop.at({ offset: 0, color: '#000' })
   stop.at({ offset: 1, color: '#fff' })
@@ -2571,7 +2565,7 @@ rect.maskWith(ellipse)
 
 使用`unmask()`方法可以解除遮罩元素
 
-```js
+```javascript
 rect.unmask()
 ```
 
@@ -2583,7 +2577,7 @@ rect.unmask()
 
 完全移除遮罩跟所有有遮罩的元素执行`unmask()`是一样的
 
-```js
+```javascript
 mask.remove();
 ```
 
@@ -2593,7 +2587,7 @@ mask.remove();
 
 为了方便起见， 遮罩的元素会依赖于遮罩节点。这在你想改变`mask`的时候会很有用
 
-```js
+```javascript
 rect.masker.fill('#fff')
 ```
 
@@ -2601,20 +2595,18 @@ rect.masker.fill('#fff')
 
 PS:可以直接通过这个方法改变你想要的masker
 
-
 ## Clipping elements 裁剪
 
 `Clipping`元素的工作原理跟`masking`元素完全相同，唯一的区别是`Clipping`元素将采取`Clipping`元素的形状。因此，事件只有在进入`Clipping`元素才触发，对于`mask`来说,`mask`可以触发事件。另一个区别是，`mask`可以填充不透明度的颜色，而`clipPath`不能
 
-源文：  
+源文：<br>
 `Clipping elements works exactly the same as masking elements. The only difference is that clipped elements will adopt the geometry of the clipping element. Therefore events are only triggered when entering the clipping element whereas with masks the masked element triggers the event. Another difference is that masks can define opacity with their fill color and clipPaths don't.`
 
 PS ：第1个区别还不懂，暂时留着先
 
-
 ### clipWith()
 
-```js
+```javascript
 var ellipse = draw.ellipse(80, 40).move(10, 10)
 
 rect.clipWith(ellipse)
@@ -2626,7 +2618,7 @@ rect.clipWith(ellipse)
 
 裁剪多个元素
 
-```js
+```javascript
 var ellipse = draw.ellipse(80, 40).move(10, 10)
 var text = draw.text('SVG.JS').move(10, 10).font({ size: 36 })
 
@@ -2639,18 +2631,17 @@ rect.clipWith(clip)
 
 取消元素的裁剪状态
 
-```js
+```javascript
 rect.unclip()
 ```
 
 `returns`: `itself`
 
-
 ### remove()
 
 取消所有的裁剪，跟所有元素执行`unclip()`是一样的
 
-```js
+```javascript
 clip.remove()
 ```
 
@@ -2660,7 +2651,7 @@ clip.remove()
 
 为了方便起见， 裁剪的元素会依赖于裁剪节点。这在你想改变`clipPath`的时候会很有用
 
-```js
+```javascript
 rect.clipper.move(10, 10)
 ```
 
@@ -2672,7 +2663,7 @@ rect.clipper.move(10, 10)
 
 PS: 只是在html结构上调整，在视觉上不一定体现出来，例如：
 
-```js
+```javascript
 window.rect = draw.rect(100, 100).fill('red').move(20, 20);
 window.rect2 = draw.rect(100, 100).fill('blue').move(20, 120);
 rect.front()
@@ -2684,7 +2675,7 @@ html 结构会按照顺序执行，先加入`rect`再加入`rect2`，这时候�
 
 把元素移动到最前面 (结构上是向下移动)
 
-```js
+```javascript
 rect.front()
 ```
 
@@ -2694,7 +2685,7 @@ rect.front()
 
 把元素移动到最后面（结构上是向上移动）
 
-```js
+```javascript
 rect.back()
 ```
 
@@ -2704,7 +2695,7 @@ rect.back()
 
 把元素向前移动一次(结构上是向下移动)
 
-```js
+```javascript
 rect.forward()
 ```
 
@@ -2714,7 +2705,7 @@ rect.forward()
 
 把元素向后移动一次（结构上是向上移动）
 
-```js
+```javascript
 rect.backward()
 ```
 
@@ -2724,7 +2715,7 @@ rect.backward()
 
 `arrange.js`模块带来了很多额外的方法。获取某个元素的所有兄弟元素，也包括这个元素本身
 
-```js
+```javascript
 rect.siblings()
 ```
 
@@ -2734,7 +2725,7 @@ rect.siblings()
 
 获取相对于父级来说，在子级中的位置
 
-```js
+```javascript
 var rect = draw.rect(100, 100).fill('red').move(20, 20);
 var rect2 = draw.rect(100, 100).fill('blue').move(20, 120);
 var rect3 = draw.rect(100, 100).fill('yellow').move(20, 220);
@@ -2748,7 +2739,7 @@ rect2.position() // ->2
 
 获取元素的下一个兄弟元素，如果没有则返回`underfined`
 
-```js
+```javascript
 rect.next()
 ```
 
@@ -2756,10 +2747,9 @@ rect.next()
 
 ### previous()
 
-获取元素的上一个兄弟元素
-PS: 包括`defs`
+获取元素的上一个兄弟元素 PS: 包括`defs`
 
-```js
+```javascript
 rect.previous()
 ```
 
@@ -2769,7 +2759,7 @@ rect.previous()
 
 把元素插入到另外一个元素前面
 
-```js
+```javascript
 // 把circle插入到rect前面
 rect.before(circle)
 ```
@@ -2780,7 +2770,7 @@ rect.before(circle)
 
 把元素插入到另外一个元素后面
 
-```js
+```javascript
 // 把circle插入到rect后面
 rect.after(circle)
 ```
@@ -2789,12 +2779,11 @@ rect.after(circle)
 
 这个功能如需要引入`arrange.js`模块
 
-
 ## Sets
 
 如果需要同时修改或者动画化多个元素`Sets`是非常有用的。一个`set`将接受单个元素上可访问的所有相同的方法，即使你用自己的插件添加的方法！创建`set`正式你所期望的
 
-```js
+```javascript
 // 创建一些元素
 var rect = draw.rect(100,100)
 var circle = draw.circle(100).move(100,100).fill('#f09')
@@ -2816,14 +2805,14 @@ set.animate().cx(100);
 
 增加一个元素到`set`
 
-```js
+```javascript
 var set = draw.set();
 set.add(rect);
 ```
 
 `set`很有用的一个特征是可以一次接受多个元素
 
-```js
+```javascript
 set.add(rect, circle)
 ```
 
@@ -2833,7 +2822,7 @@ set.add(rect, circle)
 
 `set`集合中的堆叠的元素跟在svg里面的元素是一样的
 
-```js
+```javascript
 set.each(function(i) {
   this.attr('id', 'shiny_new_id_' + i)
 })
@@ -2847,7 +2836,7 @@ set.each(function(i) {
 
 判断一个元素节点是否在`set`里面
 
-```js
+```javascript
 set.has(rect)
 ```
 
@@ -2857,7 +2846,7 @@ set.has(rect)
 
 返回元素在`set`的索引值
 
-```js
+```javascript
 set.index(rect) //-> -1 找不到就返回-1
 ```
 
@@ -2865,7 +2854,7 @@ set.index(rect) //-> -1 找不到就返回-1
 
 获取在`set`中给定索引值的元素
 
-```js
+```javascript
 set.get(1);
 ```
 
@@ -2875,16 +2864,17 @@ set.get(1);
 
 获取`set`的第一个元素
 
-```js
+```javascript
 set.first();
 ```
+
 `returns`: `element`
 
 ### last()
 
 获取`set`的最后一个元素
 
-```js
+```javascript
 set.last()
 ```
 
@@ -2892,10 +2882,9 @@ set.last()
 
 ### bbox()
 
-获取`set`的盒子模型
-PS：它的盒子模型又里面所包含的所有元素决定
+获取`set`的盒子模型 PS：它的盒子模型又里面所包含的所有元素决定
 
-```js
+```javascript
 var rect = draw.rect(100, 100)
 var circle = draw.circle(100).move(100, 100).fill('#f09')
 var set = draw.set()
@@ -2908,7 +2897,7 @@ set.bbox()
 
 移除在`set`的一个元素
 
-```js
+```javascript
 set.remove(rect)
 ```
 
@@ -2918,7 +2907,7 @@ set.remove(rect)
 
 移除所有的在`set`的元素
 
-```js
+```javascript
 set.clear()
 ```
 
@@ -2928,7 +2917,7 @@ set.clear()
 
 `sets` 使用动画
 
-```js
+```javascript
 set.animate(3000).fill('#ff0')
 ```
 
@@ -2940,7 +2929,7 @@ set.animate(3000).fill('#ff0')
 
 包含 `linear`跟`radial` 渐变，`linear`渐变可以这样设置
 
-```js
+```javascript
 var gradient = draw.gradient('linear', function(stop) {
   stop.at(0, '#333')
   stop.at(1, '#fff')
@@ -2950,14 +2939,16 @@ var gradient = draw.gradient('linear', function(stop) {
 `returns`: `SVG.Gradient`
 
 ### at()
+
 `offset`跟`color`对于stop来说是必须的，`opacity`是可选的。`offset`在`0`和`1`之间浮动，或者是一个百分比值(例如:33%)
 
-```js
+```javascript
 stop.at(0, '#333')
 ```
+
 或者
 
-```js
+```javascript
 stop.at({ offset: 0, color: '#333', opacity: 1 })
 ```
 
@@ -2967,7 +2958,7 @@ stop.at({ offset: 0, color: '#333', opacity: 1 })
 
 定义方向，你可以设置from `x`,`y`和to `x`,`y`
 
-```js
+```javascript
 gradient.from(0, 0).to(0, 1)
 ```
 
@@ -2975,16 +2966,15 @@ gradient.from(0, 0).to(0, 1)
 
 定义方向，你可以设置from `x`,`y`和to `x`,`y`
 
-```js
+```javascript
 gradient.from(0, 0).to(0, 1)
 ```
 
 ### radius()
 
-Radial 渐变有一个`radius()`的方法去定义内部颜色在外部半径的一个过渡点
-PS：.2就代表在半径的0.2开始过渡
+Radial 渐变有一个`radius()`的方法去定义内部颜色在外部半径的一个过渡点 PS：.2就代表在半径的0.2开始过渡
 
-```js
+```javascript
 var gradient = draw.gradient('radial', function(stop) {
   stop.at(0, '#333')
   stop.at(1, '#fff')
@@ -2999,17 +2989,16 @@ gradient.from(0.5, 0.5).to(0.5, 0.5).radius(0.5)
 
 在之后也可以更新渐变
 
-```js
+```javascript
 gradient.update(function(stop) {
   stop.at(0.1, '#333', 0.2)
   stop.at(0.9, '#f03', 1)
 })
-
 ```
 
 甚至是单个stop也可以更新
 
-```js
+```javascript
 var s1, s2, s3
 
 draw.gradient('radial', function(stop) {
@@ -3027,7 +3016,7 @@ s1.update(0.1, '#0f0', 1)
 
 `get()`方法使得容易从现有的渐变中提取到`stop`
 
-```js
+```javascript
 var gradient = draw.gradient('radial', function(stop) {
   stop.at({ offset: 0, color: '#000', opacity: 1 })   // -> first
   stop.at({ offset: 0.5, color: '#f03', opacity: 1 }) // -> second
@@ -3043,19 +3032,19 @@ var s1 = gradient.get(0) // -> returns "first" stop
 
 最后，把`gradient`用在一个元素上
 
-```js
+```javascript
 rect.attr({ fill: gradient })
 ```
 
 或者
 
-```js
+```javascript
 rect.fill(gradient)
 ```
 
 元素通过fill方法引用`gradient`，`fill（）`方法将可以被调用：
 
-```js
+```javascript
 gradient.fill() //-> returns 'url(#SvgjsGradient1234)'
 ```
 
@@ -3067,14 +3056,13 @@ W3Schools 有一个很好的例子让你知道linear gradients 和radial gradien
 
 这个功能需要引入默认分发中的`gradients.js`模块
 
-
 ## Pattern 图案
 
 ### pattern()
 
 创建一个`pattern`跟创建一个`gradient`是相似的
 
-```js
+```javascript
 var pattern = draw.pattern(20, 20, function(add) {
   add.rect(20,20).fill('#f06')
   add.rect(10,10)
@@ -3090,7 +3078,7 @@ var pattern = draw.pattern(20, 20, function(add) {
 
 `pattern`也可以在之后被更新
 
-```js
+```javascript
 pattern.update(function(add) {
   add.circle(15).center(10,10)
 })
@@ -3102,19 +3090,19 @@ pattern.update(function(add) {
 
 最后，把`pattern`用在元素上
 
-```js
+```javascript
 rect.attr({ fill: pattern })
 ```
 
 or
 
-```js
+```javascript
 rect.fill(pattern)
 ```
 
 元素通过fill方法去引用`pattern`实例，`fill()`方法将可以被调用
 
-```js
+```javascript
 pattern.fill() //-> returns 'url(#SvgjsPattern1234)'
 ```
 
@@ -3124,11 +3112,9 @@ pattern.fill() //-> returns 'url(#SvgjsPattern1234)'
 
 ### marker()
 
-标记可以添加`line`、`polyline`、`polygon`、和`path`的每个单独点。有三种类型的标记`start`、`mid`、`end`，其中`start`表示第一个点，`end`代表结束点，`mid`代表转折点。
-PS:`mid`只会出现在有转折的地方，例如`polyline`、`path`、`polygon`
+标记可以添加`line`、`polyline`、`polygon`、和`path`的每个单独点。有三种类型的标记`start`、`mid`、`end`，其中`start`表示第一个点，`end`代表结束点，`mid`代表转折点。 PS:`mid`只会出现在有转折的地方，例如`polyline`、`path`、`polygon`
 
-
-```js
+```javascript
 var path = draw.path('M 100 200 C 200 100 300  0 400 100 C 500 200 600 300 700 200 C 800 100 900 100 900 100z')
 
 path.fill('none').stroke({
@@ -3152,8 +3138,7 @@ path.marker('end', 20, 20, function(add) {
 
 `marker（）`方法有三种方式使用。 首先，可以在任何容器元素（例如svg，nested，group，...）上创建标记。 如果你计划重用标记多次，那么在defs中创建一个标记，但不显示它是很有必要的：
 
-
-```js
+```javascript
 var marker = draw.marker(10, 10, function(add) {
   add.rect(10, 10)
 })
@@ -3161,7 +3146,7 @@ var marker = draw.marker(10, 10, function(add) {
 
 其次，一个`marker`可以被创建并且马上应用于一个一个目标元素
 
-```js
+```javascript
 path.marker('start', 10, 10, function(add) {
   add.circle(10).fill('#f06')
 })
@@ -3171,13 +3156,13 @@ path.marker('start', 10, 10, function(add) {
 
 最后，如果创建了一个`marker`用于容器元素上重复使用，则可以将其直接应用于目标元素。
 
-```js
+```javascript
 path.marker('mid', marker)
 ```
 
 最后，从目标元素引用获取一个`marker`实例
 
-```js
+```javascript
 path.reference('marker-end')
 ```
 
@@ -3185,7 +3170,7 @@ path.reference('marker-end')
 
 默认的`refX`和`refY`属性值分别是`width`和`height`的一半。你可以定义不同的`refX`和`refY`
 
-```js
+```javascript
 marker.ref(2, 7)
 ```
 
@@ -3195,7 +3180,7 @@ marker.ref(2, 7)
 
 更新`marker`的内容将`clear()`清除现有的内容，并且通过第一个参数传递的定义去更新内容
 
-```js
+```javascript
 //draw clear
 marker.update(function(add) {
   add.circle(10)
@@ -3206,7 +3191,7 @@ marker.update(function(add) {
 
 定义`markerWidth`的属性
 
-```js
+```javascript
 marker.width(10)
 ```
 
@@ -3216,7 +3201,7 @@ marker.width(10)
 
 定义`markerHeight`的属性
 
-```js
+```javascript
 marker.height(10)
 ```
 
@@ -3226,12 +3211,11 @@ marker.height(10)
 
 定义`markerWidth`和`markerHeight`属性
 
-```js
+```javascript
 marker.size(10, 10)
 ```
 
 `returns`: `itself`
-
 
 ## Data()
 
@@ -3239,13 +3223,13 @@ marker.size(10, 10)
 
 `data()`方法允许你在SVG元素上绑定任意的对象，字符串或者数值
 
-```js
+```javascript
 rect.data('key', { value: { data: 0.3 }})
 ```
 
 或者是一次绑定多个值
 
-```js
+```javascript
 rect.data({
   forbidden: 'fruit'
 , multiple: {
@@ -3261,7 +3245,7 @@ rect.data({
 
 获取值的方法跟`attr()`是很相似的
 
-```js
+```javascript
 rect.data('key')
 ```
 
@@ -3271,7 +3255,7 @@ rect.data('key')
 
 移除所有的数据
 
-```js
+```javascript
 rect.data('key', null)
 ```
 
@@ -3281,9 +3265,10 @@ rect.data('key', null)
 
 你的值将始终以JSON格式存储，在某些情况下，这可能不可取。 如果你想存储的值是原样，只是传递true作为第三个参数：
 
-```js
+```javascript
 rect.data('key', 'value', true)
 ```
+
 `returns`: `itself`
 
 ## Memory 储存
@@ -3292,13 +3277,13 @@ rect.data('key', 'value', true)
 
 储存数据非常类似于设置属性
 
-```js
+```javascript
 rect.remember('oldBBox', rect.bbox())
 ```
 
 多组数据也能一次性储存起来
 
-```js
+```javascript
 rect.remember({
   oldFill:    rect.attr('fill')
 , oldStroke:  rect.attr('stroke')
@@ -3307,7 +3292,7 @@ rect.remember({
 
 获取检索一个储存
 
-```js
+```javascript
 rect.remember('oldBBox')
 ```
 
@@ -3317,19 +3302,19 @@ rect.remember('oldBBox')
 
 擦除单个数据
 
-```js
+```javascript
 rect.forget('oldBBox')
 ```
 
 或者一次性擦除多个数据
 
-```js
+```javascript
 rect.forget('oldFill', 'oldStroke')
 ```
 
 或者你可以直接擦除整个数据储存
 
-```js
+```javascript
 rect.forget()
 ```
 
@@ -3341,7 +3326,7 @@ rect.forget()
 
 事件可以像如下这样绑定到元素上
 
-```js
+```javascript
 rect.click(function() {
   this.fill({ color: '#f06' })
 })
@@ -3349,7 +3334,7 @@ rect.click(function() {
 
 移除这个事件也是很轻松的
 
-```js
+```javascript
 rect.click(null)
 ```
 
@@ -3361,7 +3346,7 @@ rect.click(null)
 
 你也可以给元素绑定事件监听
 
-```js
+```javascript
 var click = function() {
   this.fill({ color: '#f06' })
 }
@@ -3371,7 +3356,7 @@ rect.on('click', click)
 
 需要注意的是，回调中`this`的上下文指向的是绑定的元素。你也在绑定的时候用自己的对象来改变上下文.
 
-```js
+```javascript
 rect.on('click', click, window) // this的上下文指向的是window
 ```
 
@@ -3379,19 +3364,19 @@ rect.on('click', click, window) // this的上下文指向的是window
 
 解除绑定事件也是很简单的
 
-```js
+```javascript
 rect.off('click', click)
 ```
 
 或者是解除绑定事件的所有监听
 
-```js
+```javascript
 rect.off('click')
 ```
 
 或者是解除所有的事件绑定
 
-```js
+```javascript
 rect.off()
 ```
 
@@ -3399,22 +3384,21 @@ rect.off()
 
 还有其他更多的事件绑定形式，你也可以在html元素上绑定事件：
 
-```js
+```javascript
 SVG.on(window, 'click', click)
 ```
 
 显然实际上也可以解除绑定
 
-```js
+```javascript
 SVG.off(window, 'click', click)
 ```
 
 ### Custom events 自定义事件
 
-你甚至可以用自定义事件
-只需要增加一个事件监听到你的事件当中
+你甚至可以用自定义事件 只需要增加一个事件监听到你的事件当中
 
-```js
+```javascript
 rect.on('myevent', function() {
   alert('ta-da!')
 })
@@ -3422,7 +3406,7 @@ rect.on('myevent', function() {
 
 现在你已经可以在你需要的时候去触发这个事件
 
-```js
+```javascript
 function whenSomethingHappens() {
   rect.fire('myevent')
 }
@@ -3435,7 +3419,7 @@ function whenSomethingHappens(event) {
 
 你也可以传一个数据对象给这个事件
 
-```js
+```javascript
 function whenSomethingHappens() {
   rect.fire('myevent', {some:'data'})
 }
@@ -3445,10 +3429,9 @@ rect.on('myevent', function(e) {
 })
 ```
 
-svg.js支持`event.namespace`形式的命名空间事件
-一个命名空间事件在行为上跟普通的事件是一样的，不同的是你可以删除它而不触及其他的命名空间的正常事件处理程序
+svg.js支持`event.namespace`形式的命名空间事件 一个命名空间事件在行为上跟普通的事件是一样的，不同的是你可以删除它而不触及其他的命名空间的正常事件处理程序
 
-```js
+```javascript
 //绑定
 rect.on('myevent.namespace', function(e) {
   // do something
@@ -3472,11 +3455,10 @@ rect.off('myevent')
 
 SVG.js中的数值有一个专用的数值类，能够处理字符串值。 创建新数值很简单：
 
-```js
+```javascript
 var number = new SVG.Number('78%')
 number.plus('3%').toString() //-> returns '81%'
 number.valueOf() //-> returns 0.81
-
 ```
 
 算数运算是定义在`SVG.Number`上的一个实例方法
@@ -3485,7 +3467,7 @@ number.valueOf() //-> returns 0.81
 
 加法：
 
-```js
+```javascript
 number.plus('3%')
 ```
 
@@ -3495,7 +3477,7 @@ number.plus('3%')
 
 减法：
 
-```js
+```javascript
 number.minus('3%')
 ```
 
@@ -3505,7 +3487,7 @@ number.minus('3%')
 
 乘法：
 
-```js
+```javascript
 number.times(2)
 ```
 
@@ -3515,7 +3497,7 @@ number.times(2)
 
 除法：
 
-```js
+```javascript
 number.divide('3%')
 ```
 
@@ -3525,7 +3507,7 @@ number.divide('3%')
 
 转变单位：
 
-```js
+```javascript
 number.to('px')
 ```
 
@@ -3533,10 +3515,9 @@ number.to('px')
 
 ### morph()
 
-设置一个改变数值
-PS：要集合at使用
+使数字变形 PS：要集合at使用
 
-```js
+```javascript
 number.morph('11%')
 ```
 
@@ -3544,20 +3525,270 @@ number.morph('11%')
 
 ### at()
 
-在一个给定的位置获取改变数值
+在给定位置获取可变数字
 
-PS：查看源码，运算如下
-(morph值-number的value值) * at值 - number的value值
-暂时不是很知道用处在哪里
-
-```js
+```javascript
 var number = new SVG.Number('79%').morph('3%')
 number.at(0.55).toString() //-> '37.2%'
+```
+
+PS：查看源码，运算如下 (morph值-number的value值) * at值 - number的value值 暂时不是很知道用处在哪里
+
+```javascript
+return new SVG.Number(this.destination)
+    .minus(this)
+    .times(pos)
+    .plus(this)
 ```
 
 `returns`: `SVG.Number`
 
 ## Color 颜色
+
+SVG.js有专门的颜色类处理不同类型的颜色。接受的值包括：
+
+- hex 字符串；3原色（例如:#f06）或者6色(例如：#ff0066) `new SVG.Color('#f06')`
+- rgb 字符串；例如：rgb（255，0，102）`new SVG.Color('rgb(255, 0, 102)')`
+- rgb 对象； 例如{r:255,g:0,b:102} `new SVG.Color({ r: 255, g: 0, b: 102 })`
+
+注意，当使用rgb对象时，每次提供三个值是很重要的
+
+SVG.Color 实例有一些自己的方法。
+
+### toHex()
+
+获取hex值
+
+```javascript
+color.toHex() //-> returns '#ff0066'
+```
+
+`returns`: _hex color string_
+
+### toRgb()
+
+获取rgba()值
+
+```javascript
+color.toRgba();//-> returns 'rgb(255,0,102)'
+```
+
+`returns`: _rgb color string_
+
+### brightness() 亮度
+
+获取颜色的亮度
+
+```javascript
+color.brightness() //-> returns 0.344
+```
+
+这是一个感官上的亮度，0代表黑色，1代表白色
+
+`returns`: `number`
+
+### morph()
+
+使颜色可变
+
+```javascript
+color.morph('#000')
+```
+
+`returns`: `itself`
+
+### at()
+
+在一个给定的位置获取可变色
+
+```javascript
+var color = new SVG.Color('#ff0066').morph('#000')
+color.at(0.5).toHex() //-> '#7f0033'
+```
+
+源码中的运算
+
+```javascript
+return new SVG.Color({
+  r: ~~(this.r + (this.destination.r - this.r) * pos)
+, g: ~~(this.g + (this.destination.g - this.g) * pos)
+, b: ~~(this.b + (this.destination.b - this.b) * pos)
+})
+```
+
+当前的三原色+（morph三原色-当前三原色）* 位置
+
+`returns`: `SVG.Color`
+
+## Arrays 数组
+
+在SVG.js中，每个值的列表字符串都可以转换并作为数组传递。这样使得写入更方便，同时也为他们增加了很多关键功能
+
+### SVG.Array
+
+例如 空格分割的字符串
+
+```javascript
+'0.343 0.669 0.119 0 0 0.249 -0.626 0.13 0 0 0.172 0.334 0.111 0 0 0 0 0 1 0'
+```
+
+也可以像这样以更易于管理的格式传递
+
+```javascript
+new SVG.Array([ .343,  .669, .119, 0,   0
+              , .249, -.626, .130, 0,   0
+              , .172,  .334, .111, 0,   0
+              , .000,  .000, .000, 1,  -0 ])
+```
+
+### SVG.PointArray
+
+这是一个多点字符串。有点复杂，用于折线和多边形元素
+
+```js
+'0,0 100,100'
+```
+
+动态表示
+
+```js
+[
+  [0, 0]
+, [100, 100]
+]
+```
+
+将其预编译为SVG.PointArray
+
+```js
+new SVG.PointArray([
+  [0, 0]
+, [100, 100]
+])
+
+```
+
+注意的是，每一个`SVG.Polyline`和`SVG.Polygon`的实例都会包含对`SVG.PointArray`的实例引用
+
+```js
+polygon.array() //-> returns the SVG.PointArray instance
+```
+
+js的继承链 `SVG.PointArray` < `SVG.Array`
+
+### SVG.PathArray
+
+路径数组携带表示路径字符串中每一段的数组
+
+```js
+'M0 0L100 100z'
+```
+
+动态表现
+
+```js
+[
+  ['M', 0, 0]
+, ['L', 100, 100]
+, ['z']
+]
+```
+
+PS：每个数字的第1位表示的是路径的命令，如`M,L,C,S,Q,T`等
+
+注意的是，每一个`SVG.Path`的实例都会包含对`SVG.PathArray`的实例引用
+
+```js
+path.array() //-> returns the SVG.PathArray instance
+```
+
+#### Syntax 语法
+
+patharrays的语法是很容易知道的。它们基本上是二维数字形式的字面表示
+
+##### Move To
+
+原生的语法是`M0 0`或者`m0 0`，SVG.js的语法是`['M',0,0]`或者`['m',0,0]`
+
+##### Line To
+
+原生的语法是`L100 100`或者`l100 1000`，SVG.js的语法是`['L',100,100]`或者`['l',100,100]`
+
+##### Horizontal line
+
+原生的语法是`H200`或者`h200`，SVG.js的语法是`['H',200]`或者`['h',200]`
+
+##### Vertical line
+
+原生的语法是`V200`或者`v200`，SVG.js的语法是`['V',200]`或者`['v',200]`
+
+##### Bezier curve
+
+原生的语法是`C20 20 40 20 50 10`或者`c20 20 40 20 50 10`，SVG.js的语法是`['C',20,20,40,20,50,10]`或者`['c',20,20,40,20,50,10]`
+
+或者三次平滑曲线`S`:
+
+原生的语法是`S40 20 50 10`或者`s40 20 50 10`，SVG.js的语法是`['S',40,20,50,10]`或者`['s',40,20,50,10]`
+
+或者二次贝塞尔曲线`Q`:
+
+原生的语法是`Q20 20 50 10`或者`q20 20 50 10`，SVG.js的语法是`['Q',20,20,50,10]`或者`['q',20,20,50,10]`
+
+或者完整的简写二次贝塞尔光滑曲线`T`:
+
+原生的语法是`T50 10`或者`t50 10`，SVG.js的语法是`['T',50,10]`或者`['t',50,10]`
+
+#### Arc
+
+原生的语法是`A 30 50 0 0 1 162 163`或者`a 30 50 0 0 1 162 163`，SVG.js的语法是`['A',30,50,0,0,1,162,163]`或者`['a',30,50,0,0,1,162,163]`
+
+#### Close
+
+原生的语法是`Z`或者`z`，SVG.js的语法是`['Z']`或者`['z']`
+
+最好的路径文档在这里可以找到
+
+
+### morph()
+
+为了对数组值进行动画处理，`morph()`方法允许你传递一个目标值。这可以是字符串值，普通数组或者相同类型的SVG.js数组实例
+
+```js
+var array = new SVG.PointArray([[0, 0], [100, 100]])
+array.morph('100,0 0,100 200,200')
+```
+
+这个方法将对数组进行处理，确保源数组与目标数组具有相同的长度
+
+为了变形路径，你需要引入`svg.pathmorphing.js`扩展类
+
+`returns`: `itself`
+
+### at()
+
+这个方法会在0，1位置之间变换这个数组。继续用之前的数据
+
+```js
+array.at(0.27).toString() //-> returns '27,0 73,100 127,127'
+```
+
+需要注意的是，当前的方法不支持用在`SVG.PathArray`,但是很快就可以的了
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

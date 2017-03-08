@@ -3515,7 +3515,7 @@ number.to('px')
 
 ### morph()
 
-使数字变形 PS：要集合at使用
+使数值发生变换(设置形变点)
 
 ```javascript
 number.morph('11%')
@@ -3525,14 +3525,14 @@ number.morph('11%')
 
 ### at()
 
-在给定位置获取可变数字
+在给定的位置（0~1）获取数值发生形变之后的值
 
 ```javascript
 var number = new SVG.Number('79%').morph('3%')
 number.at(0.55).toString() //-> '37.2%'
 ```
 
-PS：查看源码，运算如下 (morph值-number的value值) * at值 - number的value值 暂时不是很知道用处在哪里
+PS： 当前值是79%，需要变换到的值是3%，变化了0.55之后，当前值变形值为37.2%(计算方式:79%-(79%-3%)\*0.55)
 
 ```javascript
 return new SVG.Number(this.destination)
@@ -3589,7 +3589,7 @@ color.brightness() //-> returns 0.344
 
 ### morph()
 
-使颜色可变
+使颜色发生变换
 
 ```javascript
 color.morph('#000')
@@ -3599,7 +3599,7 @@ color.morph('#000')
 
 ### at()
 
-在一个给定的位置获取可变色
+在一个给定的位置(0~1)获取变换之后的颜色
 
 ```javascript
 var color = new SVG.Color('#ff0066').morph('#000')
@@ -3616,7 +3616,7 @@ return new SVG.Color({
 })
 ```
 
-当前的三原色+（morph三原色-当前三原色）* 位置
+
 
 `returns`: `SVG.Color`
 
@@ -3760,7 +3760,7 @@ array.morph('100,0 0,100 200,200')
 
 这个方法将对数组进行处理，确保源数组与目标数组具有相同的长度
 
-为了变形路径，你需要引入`svg.pathmorphing.js`扩展类
+为了变换路径，你需要引入`svg.pathmorphing.js`扩展类
 
 `returns`: `itself`
 
@@ -3773,6 +3773,123 @@ array.at(0.27).toString() //-> returns '27,0 73,100 127,127'
 ```
 
 需要注意的是，当前的方法不支持用在`SVG.PathArray`,但是很快就可以的了
+
+
+`returns`: *new instance*
+
+### settle()
+
+当形变完成时，`settle()`方法会消除任何重复的过滤点，
+
+```js
+array.settle()
+```
+
+需要注意的是，当前的方法不支持用在`SVG.PathArray`,但是很快就可以的了
+
+`returns`: `itself`
+
+### move()
+
+移动几何数组给定的x，y
+
+```js
+var array = new SVG.PointArray([[0, 0], [100, 100]])
+array.move(33,75)
+array.toString() //-> returns '33,75 133,175'
+```
+
+需要注意的是，这个方法仅仅支持`SVG.PointArray`和 `SVG.PathArray`
+
+`returns`: `itself`
+
+### size()
+
+按给定的`width`和`height`调整数组的几何尺寸
+
+```js
+var array = new SVG.PointArray([[0, 0], [100, 100]])
+array.move(100,100).size(222,333)
+array.toString() //-> returns '100,100 322,433'
+```
+
+需要注意的是，这个方法仅仅支持`SVG.PointArray`和 `SVG.PathArray`
+
+`returns`: `itself`
+
+### reverse()
+
+对数组的顺序取反
+
+```js
+var array = new SVG.PointArray([[0, 0], [100, 200]])
+array.reverse()
+array.toString() //-> returns '100,200 0,0'
+```
+
+`returns`: `itself`
+
+### bbox()
+
+获取给定几何数组的边界框
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

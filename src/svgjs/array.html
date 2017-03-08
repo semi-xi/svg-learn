@@ -49,6 +49,20 @@
     ])
     array5.morph('100,0 0,100 200,200');
     console.log(array5);
+    var array6 = new SVG.PointArray([
+        [0, 0],
+        [100, 100]
+    ])
+    array6.move(100, 100);
+    array6.size(222, 333);
+    array6.toString() //-> returns '100,100 322,433'
+
+    var array7 = new SVG.PointArray([
+        [0, 0],
+        [100, 200]
+    ])
+    array7.reverse()
+    console.log(array7.toString()); 
 </script>
 
 </html>

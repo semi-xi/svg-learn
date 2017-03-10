@@ -3833,13 +3833,67 @@ array.toString() //-> returns '100,200 0,0'
 
 获取给定几何数组的边界框
 
+```js
+array.bbox();
+```
+
+需要注意的是，这个方法仅仅支持`SVG.PointArray`和 `SVG.PathArray`
+
+`returns`: `object`
 
 
+## Matrices
+
+矩阵在SVG.js有专门的类`SVG.Matrix`,覆盖原生的SVGMatrix。它们增加了许多功能，例如提取变换值，矩阵变形和改进原生方法
+
+### SVG.Matrix
 
 
+SVG.js 矩阵接受各种值初始化
 
+没有值：
 
+```js
+var matrix = new SVG.Matrix
+matrix.toString() //-> returns matrix(1,0,0,1,0,0)
+```
 
+6个值：
+
+```js
+var matrix = new SVG.Matrix(1, 0, 0, 1, 100, 150)
+matrix.toString() //-> returns matrix(1,0,0,1,100,150)
+```
+
+字符串值：
+
+```js
+var matrix = new SVG.Matrix('1,0,0,1,100,150')
+matrix.toString() //-> returns matrix(1,0,0,1,100,150)
+```
+
+对象值
+
+```js
+var matrix = new SVG.Matrix({ a: 1, b: 0, c: 0, d: 1, e: 100, f: 150 })
+matrix.toString() //-> returns matrix(1,0,0,1,100,150)
+```
+
+原生SVGMatrix：
+
+```js
+var svgMatrix = svgElement.getCTM()
+var matrix = new SVG.Matrix(svgMatrix)
+matrix.toString() //-> returns matrix(1,0,0,1,0,0)
+```
+
+甚至可以是`SVG.Element`的实例
+
+```js
+var rect = draw.rect(50, 25)
+var matrix = new SVG.Matrix(rect)
+matrix.toString() //-> returns matrix(1,0,0,1,0,0)
+```
 
 
 

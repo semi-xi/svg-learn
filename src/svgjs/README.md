@@ -3895,12 +3895,26 @@ var matrix = new SVG.Matrix(rect)
 matrix.toString() //-> returns matrix(1,0,0,1,0,0)
 ```
 
+### extract()  提取
 
+获取矩阵计算之后返回的一个对象值
 
+```js
+matrix.extract()
+```
 
+返回的对象包括下面的值：
 
+* x (在x方向上的transition)
+* y (在y方向上的transition)
+* skewX (在x方向上的变形)
+* skewY (在y方向上的变形)
+* scaleX (在x方向上的缩放)
+* scaleY （在y方向上的缩放）
 
+`returns`: `object`
 
+### clone() 
 
 
 
@@ -3960,8 +3974,3 @@ matrix.toString() //-> returns matrix(1,0,0,1,0,0)
 
 
 
-
-
-
-
-11

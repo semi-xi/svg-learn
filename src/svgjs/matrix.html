@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var rect = draw.rect(400, 200).fill('red');
+    var matrix = new SVG.Matrix(rect);
+    // var matrix = new SVG.Matrix({ a: 1, b: 0, c: 0, d: 1, e: 100, f: 150 })
+    // var newMmatrix=matrix.translate(10, 20).scale(2);
+    console.log(matrix.extract());
+    var newMmatrix = matrix.flip('x',200);
+    rect.transform(newMmatrix)
+    console.log(newMmatrix.extract());
+</script>
+
+</html>

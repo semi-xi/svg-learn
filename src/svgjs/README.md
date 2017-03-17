@@ -3914,7 +3914,160 @@ matrix.extract()
 
 `returns`: `object`
 
-### clone() 
+### clone()
+
+返回一个复制的矩阵
+
+```js
+matrix.clone()
+```
+
+`returns`: `SVG.Matrix`
+
+### morph()
+
+为了动画矩阵，`morph()`方法可以让我们传入一个目标矩阵。这可以是`SVG.Matrix`在初始化时能接受的任意值
+
+```js
+matrix.morph(matrix(2,0,0,2,100,150))
+```
+
+`returns`: `itself`
+
+### at()
+
+这个方法会形变到矩阵给定的一个在0~1之间的位置
+
+```js
+matrix.at(0.27)
+```
+
+`returns`: `SVG.Matrix`
+
+这只会使用在当一个矩阵定义了`morph()`的时候
+
+### multiply()
+
+与另外一个给定的矩阵做乘法运算
+
+```js
+matrix.matrix(matrix2)
+```
+
+`returns`: `SVG.Matrix`
+
+### inverse()
+
+创建一个翻转的矩阵
+
+```js
+matrix.inverse()
+```
+
+`returns`: `SVG.Matrix`
+
+
+### translate()
+
+按照给定的x,y值平移矩阵
+
+`returns`: `SVG.Matrix`
+
+### scale()
+
+缩放矩阵通过一个值设置矩阵
+
+```js
+// scaleX->2 scaleY->2
+matrix.scale(2)
+```
+
+缩放矩阵通过两个不同值设置矩阵
+
+```js
+// scaleX, scaleY
+matrix.scale(2, 3)
+```
+
+缩放矩阵通过三个值设置缩放值跟缩放中心
+
+```js
+// scale, cx, cy
+matrix.scale(2, 100, 150)
+```
+
+缩放矩阵通过四个值设置不同缩放值跟缩放中心
+
+```js
+// scaleX, scaleY, cx, cy
+matrix.scale(2, 3, 100, 150)
+```
+
+`returns`: `SVG.Matrix`
+
+### rotate()
+
+旋转矩阵通过一个值设置角度
+
+```js
+// degrees
+matrix.rotate(45)
+```
+
+旋转矩阵通过三个值设置角度跟旋转中心
+
+```js
+// degrees, cx, cy
+matrix.rotate(45, 100, 150)
+```
+
+### flip()
+
+在给定的轴上翻转矩阵
+
+```js
+matrix.flip('x')
+```
+
+或者
+
+```js
+matrix.flip('y')
+```
+
+默认情况下，元素在其中心点上翻转。 可以使用第二个参数定义翻转轴位置
+
+```js
+matrix.flip('x', 150)
+```
+
+or
+
+```js
+matrix.flip('y', 100)
+```
+
+
+`returns`: `SVG.Matrix`
+
+
+### skew()
+
+倾斜矩阵通过两个值设置x和y的倾斜角度
+
+```js
+// degreesX, degreesY
+matrix.skew(0, 45)
+```
+
+倾斜矩阵通过四个值设置x角度，y角度和中心点
+
+```js
+// degreesX, degreesY, cx, cy
+matrix.skew(0, 45, 150, 100)
+```
+
+`returns`: `SVG.Matrix`
 
 
 
@@ -3926,51 +4079,4 @@ matrix.extract()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+11

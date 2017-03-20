@@ -4069,14 +4069,166 @@ matrix.skew(0, 45, 150, 100)
 
 `returns`: `SVG.Matrix`
 
+### around()
+
+围绕给定的中心点执行矩阵变换
+
+```js
+// cx, cy, matrix
+matrix.around(100, 150, new SVG.Matrix().skew(0, 45))
+```
+
+作为第三个参数传递的矩阵将用于乘法
+
+`returns`: `SVG.Matrix`
+
+### native()
+
+返回从`SVG.Matrix`实例集继承的一个原生`SVGMatrix`
+
+```js
+matrix.native()
+```
+
+`returns`: `SVG.Matrix`
+
+### toString()
+
+将矩阵转换为字符串
+
+```js
+matrix.toString()
+// -> matrix(1,0,0,1,0,0)
+```
+
+`returns`: `string`
 
 
+## Extending functionality 扩展方法
 
+### SVG.invent()
 
+得益于`SVG.invent`函数，使得使用`SVG.js`创建自定义元素是很简单的。为了说明，我们`invent`一个形状。我们想要一个带圆角的矩形，它总是与元素的高度成正比。新的形状存在于SVG命名空间中，称为`Rounded`。下面是我们如何去实现：
 
+```js
+SVG.Rounded = SVG.invent({
+  // Define the type of element that should be created
+  create: 'rect'
 
+  // Specify from which existing class this shape inherits
+, inherit: SVG.Shape
 
+  // Add custom methods to invented shape
+, extend: {
+    // Create method to proportionally scale the rounded corners
+    size: function(width, height) {
+      return this.attr({
+        width:  width
+      , height: height
+      , rx:     height / 5
+      , ry:     height / 5
+      })
+    }
+  }
 
+  // Add method to parent elements
+, construct: {
+    // Create a rounded element
+    rounded: function(width, height) {
+      return this.put(new SVG.Rounded).size(width, height)
+    }
 
+  }
+})
+```
 
-11
+创建出来的元素就会出现在画布上
+
+```js
+var rounded = draw.rounded(200, 100)
+```
+
+就是这样了，现在可以使用`invention`了
+
+#### Accepted values 可以被接受的值
+
+`SVG.invent`方法只能接受一个对象值。这个对象可以包含下面的这些值：
+
+    * create:既可以是一个节点的字符串名（如：`rect`、`ellipse`......）或者是一个zing定义初始化函数 `[必须]`
+    * inherit:所需要继承的`SVG.js`类（如：`SVG.Shape`、`SVG.Element`，`SVG.Container`，`SVG.Rect`......） `[可以选不用的类，但是是个必须参数]`
+    * extent:一个具有应该应用于元素原型的方法的对象 `[可选]`
+    * construct:一个创建在父节点方法的对象 `[可选]`
+    * parent:一个`SVG.js`的父类，使得传递在`construct`的方法可用，默认是`SVG.Container` [可选]
+
+使用注意：
+需要强调的是，`SVG.invent()`传入的配置对象：
+    * `construct` 不能代替`constructor`，而是像`constructor`方法的方法
+    * `create`指定的你定义的类型的构造函数，并不类似于`SVG.create()`
+
+当定义了特殊的svg元素（就像上面的SVG.Rounded），`create`指定的函数需要做所有的工作：将元素添加到SVG文档中，并将DOM节点连接到SVG.js接口。当`create`的值是一个节点类型的字符串时，所有的这些都是自动完成的。如果需要，请参阅源代码以了解如何明确地做到这一点
+
+虽然默认值为`SVG.js`框架创建的svg元素(PS:创建出来的元素是svg元素)，`SVG.invent`还可以用javascript定义的通用函数。当以这种更一般的方式使用时，作为`create`的值提供的函数应该被写为普通的JS构造函数。（确实，函数简单地作为新定义类型的构造函数返回。）
+
+```js
+SVG.NewNumber= SVG.invent({
+    create:function(value){
+        this.value = value + 1;
+    },
+    inherit:SVG.Number
+})
+
+var newNum = new SVG.NewNumber(22);
+console.log(newNum);
+```
+
+SVG.js使用`SVG.invent()`函数创建所有内部函数。查看源代码可以知道这个函数是如何使用的。
+
+### SVG.extend()
+
+SVG.js具有模块化结构。在不同的级别添加自己的方法是非常容易的。加入我们要为所有的`SVG.Shape`类型增加方法，只需要将我们的方法增加到`SVG.Shape`就可以了
+
+```js
+SVG.extend(SVG.Shape, {
+  paintRed: function() {
+    return this.fill('red')
+  }
+})
+```
+
+现在所有的形状都有了可调用的paintRed方法，假如我们想在`ellipse`调用`parinRed`方法应用略有不同的颜色
+
+```js
+SVG.extend(SVG.Ellipse, {
+  paintRed: function() {
+    return this.fill('orangered')
+  }
+})
+```
+
+`SVG.Ellipse`完整的继承链是：
+
+`SVG.Ellipse `< `SVG.Shape` < `SVG.Element`
+
+SVG文档(SVG.Doc)可以这样扩展
+
+```js
+SVG.extend(SVG.Doc, {
+  paintAllPink: function() {
+    this.each(function() {
+      this.fill('pink')
+    })
+  }
+})
+```
+
+你也可以一次性扩展多个元素
+
+``js
+SVG.extend(SVG.Ellipse, SVG.Path, SVG.Polygon, {
+  paintRed: function() {
+    return this.fill('orangered')
+  }
+})
+```
+
+## Plugins 插件

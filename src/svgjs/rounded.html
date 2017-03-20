@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    SVG.Rounded = SVG.invent({
+      // Define the type of element that should be created
+      create: 'rect'
+
+      // Specify from which existing class this shape inherits
+    , inherit: SVG.Shape
+
+      // Add custom methods to invented shape
+    , extend: {
+        // Create method to proportionally scale the rounded corners
+        size: function(width, height) {
+          return this.attr({
+            width:  width
+          , height: height
+          , rx:     height / 5
+          , ry:     height / 5
+          })
+        }
+      }
+
+      // Add method to parent elements
+    , construct: {
+        // Create a rounded element
+        rounded: function(width, height) {
+          return this.put(new SVG.Rounded).size(width, height)
+        }
+
+      }
+    })
+
+    var rounded = draw.rounded(200,100)
+
+
+    SVG.NewNumber= SVG.invent({
+        create:function(value){
+            this.value = value + 1;
+        },
+        inherit:SVG.Number
+    })
+
+    var newNum = new SVG.NewNumber(22);
+    console.log(newNum);
+</script>
+
+</html>

@@ -4232,3 +4232,25 @@ SVG.extend(SVG.Ellipse, SVG.Path, SVG.Polygon, {
 ```
 
 ## Plugins 插件
+
+这里有一些SVG.js非常棒的插件
+
+### pathmorphing
+
+[svg.pathmorphing.js ](https://github.com/svgdotjs/svg.pathmorphing.js) 让路径可以运动
+
+### textmorphing
+
+[svg.textmorph.js](https://github.com/svgdotjs/svg.textmorph.js) 让蚊子运动起来
+
+### absorb
+
+[svg.absorb.js](https://github.com/svgdotjs/svg.absorb.js) 将原始SVG数据设置到SVG实例之中
+
+```js
+draw.absorb('<circle id="circle1237" opacity="0.8" fill="#8CC63F" cx="201.603" cy="159.508" r="69.067"/>')
+```
+
+### draggable
+
+[svg.draggable.js](https://github.com/svgdotjs/svg.draggable.js) 可以让元素拖拽

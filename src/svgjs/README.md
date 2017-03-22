@@ -4254,3 +4254,20 @@ draw.absorb('<circle id="circle1237" opacity="0.8" fill="#8CC63F" cx="201.603" c
 ### draggable
 
 [svg.draggable.js](https://github.com/svgdotjs/svg.draggable.js) 可以让元素拖拽
+
+### connectable
+
+[svg.connectable.js](https://github.com/jillix/svg.connectable.js) 连接元素
+[svg.connectable.js fork](https://github.com/loredanacirstea/svg.connectable.js) fork 上面的插件。连接元素(增加：弯曲连接，你可以使用任何自定义的路径作为连接器，可以选择center或者perifery 附加。源/目标的SVG Path使用PathArray点之间的最小距离算法）)
+
+### easing
+
+[svg.easing.js](https://github.com/svgdotjs/svg.easing.js) 扩展easing
+
+### export
+
+[svg.export.js](svg.export.js ) 导出原生svg
+
+### filter
+
+[svg.filter.js](https://github.com/svgdotjs/svg.filter.js) 滤镜

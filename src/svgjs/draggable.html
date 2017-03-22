@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        svg {
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 20px;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drawing">
+
+    </div>
+</body>
+<script src="./src/svg.js" charset="utf-8"></script>
+<script src="./src/svg.draggable.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var draw = SVG('drawing').size(1000, 1000);
+    var rect = draw.rect(400,200).cx(500).cy(500).fill('red');
+    rect.draggable();
+    rect.on('dragstart',function(){
+        console.log('drag 开始');
+    })
+    rect.on('dragmove',function(){
+        console.log('drag move');
+    })
+    rect.on('dragend',function(){
+        console.log('drag 结束');
+    })
+</script>
+
+</html>

@@ -4271,3 +4271,9 @@ draw.absorb('<circle id="circle1237" opacity="0.8" fill="#8CC63F" cx="201.603" c
 ### filter
 
 [svg.filter.js](https://github.com/svgdotjs/svg.filter.js) 滤镜
+
+### foreignObject
+
+[svg.foreignobject.js](https://github.com/memloom-development/svg.foreignobject.js) foreignObject 实现
+
+PS：是一个在svg内部嵌套外来XML命名空间的元素 具体可以看MDN[foreignObject](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/foreignObject)

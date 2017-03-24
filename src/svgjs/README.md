@@ -1,4 +1,4 @@
-# SVG.js 中文说明
+# SVG.js 中文文档
 
 [toc]
 
@@ -10,7 +10,9 @@
 
 支持IE9+
 
-另外这个翻译仅仅只是个人学习交流之用啊，千万别作其他用途，另外很多都是自己的理解，看不懂的话可以去看下源文。小白一个就不要吐槽那么多了
+另外这个翻译仅仅只是个人学习交流之用啊，切勿作其他用途，另外很多都是自己的理解，看不懂的话可以去看下源文。小白一个就不要吐槽那么多了。
+
+感谢大佬们写出优秀的SVG.js及其插件
 
 ## 用法
 
@@ -4277,3 +4279,256 @@ draw.absorb('<circle id="circle1237" opacity="0.8" fill="#8CC63F" cx="201.603" c
 [svg.foreignobject.js](https://github.com/memloom-development/svg.foreignobject.js) foreignObject 实现
 
 PS：是一个在svg内部嵌套外来XML命名空间的元素 具体可以看MDN[foreignObject](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/foreignObject)
+
+### import
+
+[svg.import.js](https://github.com/svgdotjs/svg.import.js) 导入svg源数据
+
+### math
+
+[svg.math.js](https://github.com/otm/svg.math.js) 数学拓展，主要是处理角度弧度的
+
+### path
+
+[svg.path.js](https://github.com/otm/svg.path.js) 对原来的路径进行了扩韩
+
+[demo](http://otm.github.io/svg.path.js/)
+
+
+## screenBBox
+
+[svg.screenbbox.js](https://github.com/svgdotjs/svg.screenbbox.js) 从转换过后的`path`/`polygon` /`polyline`获取bbox对应的屏幕坐标
+
+### shapes
+
+[svg.shapes.js](https://github.com/svgdotjs/svg.shapes.js) 拓展基本图形
+PS：星星跟多边形
+
+### topath
+
+[svg.topath.js](https://github.com/svgdotjs/svg.topath.js) 形状转换成path
+
+PS：参数`true`替换原来的，否则仅仅是在源形状后面插入
+
+### topoly
+
+[svg.topoly.js](https://github.com/svgdotjs/svg.topoly.js) 转换path为`polylines`或`polygons`
+
+PS: 作者已经很久没更新，插件有bug，需要自己修改如下地方
+
+```js
+//原插件
+poly = this.parent[type](this.array.toPoly(sample))
+        .attr(normaliseAttributes(this.attr()))
+        .transform(trans)
+
+//更改后
+poly = this.parent()[type](this.array().toPoly(sample))
+        .attr(normaliseAttributes(this.attr()))
+     // .transform(trans)
+
+if(poly){
+  poly.transform(trans)
+}
+```
+
+因为`this.parent`与`this.array`需要执行才会返回一个正确的对象，否则是一个方法
+对于`transform` 对于trans为空的时候返回的是一个`SVG.Matrix` 只有不为空的时候才会是一个`setter`，这样保证了它在后续执行`after()`的时候是一个Element而不是`SVG.Matrix`
+
+### wiml
+
+[svg.wiml.js](https://github.com/svgdotjs/svg.wiml.js) 一个文本转译器，减轻手动构建样式文本
+
+### comic
+
+[comic.js](https://github.com/balint42/comic.js) 让你的svg卡通起来  
+
+[demo](http://www.morvai.de/comicjs/mixer.html)
+
+### draw
+
+[svg.draw.js](https://github.com/svgdotjs/svg.draw.js) 用鼠标画SVG
+
+[项目demo地址](http://svgjs.com/svg.draw.js/)
+
+目前只支持4样`line`/`polyline`/`polygon`/`circle`
+
+### select
+
+[svg.select.js](https://github.com/svgdotjs/svg.select.js) 鼠标选择元素
+
+### resize
+
+[svg.resize.js](https://github.com/svgdotjs/svg.resize.js) 用鼠标改变元素大小
+
+可以结合上面的`select`插件做
+
+## Contributing
+
+我们很喜欢你贡献代码。是的，我们用LOVE这个词！但请确保您遵循相同的编码风格。这里有一些例子：
+
+### Indentation 缩进
+
+我们用两个空格缩进，确保你没有开始使用`tab`，因为事情会变得凌乱
+
+### Avoid hairy code 避免糟糕代码
+
+我们喜欢保持简单干净，不要写任何你不需要的东西。所以在可能的情况下使用单引号，避免使用分号，我们不会在这里编写PHP
+
+*Good:*
+
+```js
+var text = draw.text('with single quotes here')
+  , nest = draw.nested().attr('x', '50%')
+
+for (var i = 0; i < 5; i++)
+  if (i != 3)
+    nest.circle(i * 100)
+```
+
+*Bad:*
+
+```js
+var text = draw.text("with double quotes here");
+var nest = draw.nested().attr("x", "50%");
+
+for (var i = 0; i < 5; i++) {
+  if (i != 3) {
+    nest.circle(100);
+  };
+};
+```
+
+### Minimize variable declarations 最小化局部变量生命
+
+所有局部变量应该在函数或方法的开头生命，除非只有一个变量生命。虽然不需要在同一时刻分配它们，当if语句执行时，要在之前就声明好需要用到的变量。在if语句之后，必要的变量应该要被正确的声明
+
+*Good:*
+
+```js
+function reading_board() {
+  var aap, noot, mies
+
+  aap  = 1
+  noot = 2
+  mies = aap + noot
+}
+```
+
+*Bad:*
+
+```js
+function reading_board() {
+  var aap  = 1
+  var noot = 2
+  var mies = aap + noot
+}
+```
+
+### Let your code breathe people! 让人能更好阅读你的代码
+
+尽量不要压缩你自己的代码。它们已经做得很好了，给你的代码一些空格和换行符
+
+*Good:*
+
+```js
+var nest = draw.nested().attr({
+  x:      10
+, y:      20
+, width:  200
+, height: 300
+})
+
+for (var i = 0; i < 5; i++)
+  nest.circle(100)
+ ```
+*Bad:*
+
+```js
+var nest=draw.nested().attr({x:10,y:20,width:200,height:300});
+for(var i=0;i<5;i++)nest.circle(100);
+```
+
+### It won't hurt to add a few comments 添加几句注释是无害的
+
+必要时告诉我们你在做什么，但是需要简明扼要。我们只使用单行注释。还要保持变量和方法名称的简短，同时保持可读性
+
+*Good:*
+
+```js
+// Adds orange-specific methods
+SVG.extend(SVG.Rect, {
+  // Add a nice, transparent orange
+  orangify: function() {
+    // fill with orange color
+    this.fill('orange')
+
+    // add a slight opacity
+    return this.opacity(0.85)
+  }
+})
+```
+*Bad:*
+
+```js
+/*
+ *
+ * does something with orange and opacity
+ *
+ */
+SVG.extend(SVG.Rect, {
+  orgf: function() {
+    return this.fill('orange').opacity(0.85)
+  }
+})
+```
+
+### Refactor your code 重构你的代码
+
+一旦你的实现准备好了，对他们重新审视和再加工。我们喜欢的是DRY代码(非重复)
+
+### Test Your Code 测试你的代码
+
+每个实现至少写一个例子并不难，尽管我们更喜欢更多。你的代码似乎可以通过在浏览器中快速测试，但通常不能看到所有的内容
+
+在运行规范之前，你需要构建`library`，请注意，不规范的request都会被拒绝
+
+## Building 构建
+
+在贡献代码之后，你可能希望建立一个`library`来运行某些规范。确保你的系统上安装了Node.js，`cd`到svg.js目录并运行
+
+```js
+$ npm install
+```
+
+执行`gulp`构建SVG.js
+
+结果是生成下面的文件
+
+* dist/svg.js
+* dist/svg.min.js
+
+## Compatibility 兼容性
+
+### Desktop
+
+* Firefox 3+
+* Chrome 4+
+* Safari 3.2+
+* Opera 9+
+* IE9+
+
+### Mobile
+
+* iOS Safari 3.2+
+* Android Browser 3+
+* Opera Mobile 10+
+* Chrome for Android 18+
+* Firefox for Android 15+
+
+访问`SVG.js test page`如果你想检测不同浏览器的兼容性
+
+## Acknowledgements & Thanks
+
+文档提供者 [DocumentUp](http://documentup.com/jeromegn/documentup)
+SVG.js以及其文档根据MIT许可证的条款发布

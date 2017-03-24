@@ -1,14 +1,16 @@
 svg learning
 ===
 
-##1.svg 简介
+[SVG.js中文文档](https://github.com/semi-xi/svg.js-for-cn)
 
-###1.1 svg特性
+## 1.svg 简介
+
+### 1.1 svg特性
 
 * 矢量
 * 高大上
 
-###1.2svg的使用方式
+### 1.2svg的使用方式
 
 * 直接在浏览器打开
 * 在HTML中使用img标签引用
@@ -18,8 +20,8 @@ ex:
 		background-image: url(../img/simple.svg);
 		background-size: 100%;
 
-###1.3 基本的图形和属性
-####基本图形
+### 1.3 基本的图形和属性
+#### 基本图形
 
 * 矩形rect
 * 圆circle
@@ -28,7 +30,7 @@ ex:
 * 多段直线结合polyline
 * 多边形polygon
 
-####属性
+#### 属性
 
 * fill 填充
 * stroke 边框
